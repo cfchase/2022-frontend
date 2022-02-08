@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "examples": [
+    {
+      "username": "Sunshine Ray",
+      "playerId": "983v4cu9pCPNuK4ofoSh5"
+    }
+  ],
+  "properties": {
+    "username": {
+      "type": "string"
+    },
+    "gameId": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
