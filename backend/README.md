@@ -2,7 +2,7 @@
 
 ## About
 
-This module provides a GraphQL endpoint for HTTP/Websocket at `http://0.0.0.0/graphql` and `ws://0.0.0.0/graphql`.  It uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/) with the [Fastify](https://www.apollographql.com/docs/apollo-server/integrations/middleware/#apollo-server-fastify) plugin.
+This module provides a GraphQL endpoint for HTTP/Websocket at `http://0.0.0.0:8080/graphql` and `ws://0.0.0.0:8080/graphql`.  It uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/) with the [Fastify](https://www.apollographql.com/docs/apollo-server/integrations/middleware/#apollo-server-fastify) plugin.
 
 ## Installation
 
@@ -22,4 +22,4 @@ yarn run dev
 
 Open the GraphQL Playground:
 
-http://0.0.0.0/graphql
+http://0.0.0.0:8080/graphql
