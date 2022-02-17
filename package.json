@@ -4,5 +4,20 @@
   "workspaces": [
     "backend",
     "frontend"
-  ]
+  ],
+  "scripts": {
+    "dev": "concurrently \"yarn generate:types --watch\" \"yarn backend:dev\"",
+    "generate:types": "graphql-codegen"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^2.6.1",
+    "@graphql-codegen/graphql-modules-preset": "^2.3.3",
+    "@graphql-codegen/typescript": "^2.4.3",
+    "@graphql-codegen/typescript-resolvers": "^2.5.0",
+    "concurrently": "^7.0.0",
+    "graphql": "^16.3.0"
+  },
+  "resolutions": {
+    "graphql-subscriptions@2.0.0": "patch:graphql-subscriptions@npm:2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84"
+  }
 }

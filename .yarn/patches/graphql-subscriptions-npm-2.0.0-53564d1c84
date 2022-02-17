@@ -1,0 +1,450 @@
+diff --git a/dist/pubsub-async-iterable-iterator.d.ts b/dist/pubsub-async-iterable-iterator.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..51ab6d37cdb7a8a1d92b1a29f7a8474dbc137219
+--- /dev/null
++++ b/dist/pubsub-async-iterable-iterator.d.ts
+@@ -0,0 +1,19 @@
++import { PubSubEngine } from './pubsub-engine';
++export declare class PubSubAsyncIterableIterator<T> implements AsyncIterableIterator<T> {
++    private pullQueue;
++    private pushQueue;
++    private eventsArray;
++    private allSubscribed;
++    private running;
++    private pubsub;
++    constructor(pubsub: PubSubEngine, eventNames: string | readonly string[]);
++    next(): Promise<IteratorResult<T>>;
++    return(): Promise<IteratorResult<T>>;
++    throw(error: any): Promise<never>;
++    [Symbol.asyncIterator](): this;
++    private pushValue;
++    private pullValue;
++    private emptyQueue;
++    private subscribeAll;
++    private unsubscribeAll;
++}
+diff --git a/dist/pubsub-async-iterable-iterator.js b/dist/pubsub-async-iterable-iterator.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..f12f9f7b7dc7fbe9041f4cd58eafb08e2d76306f
+--- /dev/null
++++ b/dist/pubsub-async-iterable-iterator.js
+@@ -0,0 +1,160 @@
++"use strict";
++var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
++    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
++    return new (P || (P = Promise))(function (resolve, reject) {
++        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
++        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
++        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
++        step((generator = generator.apply(thisArg, _arguments || [])).next());
++    });
++};
++var __generator = (this && this.__generator) || function (thisArg, body) {
++    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
++    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
++    function verb(n) { return function (v) { return step([n, v]); }; }
++    function step(op) {
++        if (f) throw new TypeError("Generator is already executing.");
++        while (_) try {
++            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
++            if (y = 0, t) op = [op[0] & 2, t.value];
++            switch (op[0]) {
++                case 0: case 1: t = op; break;
++                case 4: _.label++; return { value: op[1], done: false };
++                case 5: _.label++; y = op[1]; op = [0]; continue;
++                case 7: op = _.ops.pop(); _.trys.pop(); continue;
++                default:
++                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
++                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
++                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
++                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
++                    if (t[2]) _.ops.pop();
++                    _.trys.pop(); continue;
++            }
++            op = body.call(thisArg, _);
++        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
++        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
++    }
++};
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.PubSubAsyncIterableIterator = void 0;
++var PubSubAsyncIterableIterator = (function () {
++    function PubSubAsyncIterableIterator(pubsub, eventNames) {
++        this.pubsub = pubsub;
++        this.pullQueue = [];
++        this.pushQueue = [];
++        this.running = true;
++        this.allSubscribed = null;
++        this.eventsArray = typeof eventNames === 'string' ? [eventNames] : eventNames;
++    }
++    PubSubAsyncIterableIterator.prototype.next = function () {
++        return __awaiter(this, void 0, void 0, function () {
++            return __generator(this, function (_a) {
++                switch (_a.label) {
++                    case 0:
++                        if (!!this.allSubscribed) return [3, 2];
++                        return [4, (this.allSubscribed = this.subscribeAll())];
++                    case 1:
++                        _a.sent();
++                        _a.label = 2;
++                    case 2: return [2, this.pullValue()];
++                }
++            });
++        });
++    };
++    PubSubAsyncIterableIterator.prototype.return = function () {
++        return __awaiter(this, void 0, void 0, function () {
++            return __generator(this, function (_a) {
++                switch (_a.label) {
++                    case 0: return [4, this.emptyQueue()];
++                    case 1:
++                        _a.sent();
++                        return [2, { value: undefined, done: true }];
++                }
++            });
++        });
++    };
++    PubSubAsyncIterableIterator.prototype.throw = function (error) {
++        return __awaiter(this, void 0, void 0, function () {
++            return __generator(this, function (_a) {
++                switch (_a.label) {
++                    case 0: return [4, this.emptyQueue()];
++                    case 1:
++                        _a.sent();
++                        return [2, Promise.reject(error)];
++                }
++            });
++        });
++    };
++    PubSubAsyncIterableIterator.prototype[Symbol.asyncIterator] = function () {
++        return this;
++    };
++    PubSubAsyncIterableIterator.prototype.pushValue = function (event) {
++        return __awaiter(this, void 0, void 0, function () {
++            return __generator(this, function (_a) {
++                switch (_a.label) {
++                    case 0: return [4, this.allSubscribed];
++                    case 1:
++                        _a.sent();
++                        if (this.pullQueue.length !== 0) {
++                            this.pullQueue.shift()(this.running
++                                ? { value: event, done: false }
++                                : { value: undefined, done: true });
++                        }
++                        else {
++                            this.pushQueue.push(event);
++                        }
++                        return [2];
++                }
++            });
++        });
++    };
++    PubSubAsyncIterableIterator.prototype.pullValue = function () {
++        var _this = this;
++        return new Promise(function (resolve) {
++            if (_this.pushQueue.length !== 0) {
++                resolve(_this.running
++                    ? { value: _this.pushQueue.shift(), done: false }
++                    : { value: undefined, done: true });
++            }
++            else {
++                _this.pullQueue.push(resolve);
++            }
++        });
++    };
++    PubSubAsyncIterableIterator.prototype.emptyQueue = function () {
++        return __awaiter(this, void 0, void 0, function () {
++            var subscriptionIds;
++            return __generator(this, function (_a) {
++                switch (_a.label) {
++                    case 0:
++                        if (!this.running) return [3, 2];
++                        this.running = false;
++                        this.pullQueue.forEach(function (resolve) { return resolve({ value: undefined, done: true }); });
++                        this.pullQueue.length = 0;
++                        this.pushQueue.length = 0;
++                        return [4, this.allSubscribed];
++                    case 1:
++                        subscriptionIds = _a.sent();
++                        if (subscriptionIds) {
++                            this.unsubscribeAll(subscriptionIds);
++                        }
++                        _a.label = 2;
++                    case 2: return [2];
++                }
++            });
++        });
++    };
++    PubSubAsyncIterableIterator.prototype.subscribeAll = function () {
++        var _this = this;
++        return Promise.all(this.eventsArray.map(function (eventName) { return _this.pubsub.subscribe(eventName, _this.pushValue.bind(_this), {}); }));
++    };
++    PubSubAsyncIterableIterator.prototype.unsubscribeAll = function (subscriptionIds) {
++        for (var _i = 0, subscriptionIds_1 = subscriptionIds; _i < subscriptionIds_1.length; _i++) {
++            var subscriptionId = subscriptionIds_1[_i];
++            this.pubsub.unsubscribe(subscriptionId);
++        }
++    };
++    return PubSubAsyncIterableIterator;
++}());
++exports.PubSubAsyncIterableIterator = PubSubAsyncIterableIterator;
++//# sourceMappingURL=pubsub-async-iterable-iterator.js.map
+\ No newline at end of file
+diff --git a/dist/pubsub-async-iterable-iterator.js.map b/dist/pubsub-async-iterable-iterator.js.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..545f0c6b3ea028ac82d4742cc91dc68a5baab3d3
+--- /dev/null
++++ b/dist/pubsub-async-iterable-iterator.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"pubsub-async-iterable-iterator.js","sourceRoot":"","sources":["../src/pubsub-async-iterable-iterator.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/pubsub-engine.d.ts b/dist/pubsub-engine.d.ts
+index 58fa1b1d43427edadded1337532dac0123101400..86830591311228648314e9005c86f73dac8a08cc 100644
+--- a/dist/pubsub-engine.d.ts
++++ b/dist/pubsub-engine.d.ts
+@@ -1,6 +1,7 @@
++import { PubSubAsyncIterableIterator } from './pubsub-async-iterable-iterator';
+ export declare abstract class PubSubEngine {
+     abstract publish(triggerName: string, payload: any): Promise<void>;
+     abstract subscribe(triggerName: string, onMessage: Function, options: Object): Promise<number>;
+     abstract unsubscribe(subId: number): any;
+-    asyncIterator<T>(triggers: string | string[]): AsyncIterator<T>;
++    asyncIterableIterator<T>(triggers: string | readonly string[]): PubSubAsyncIterableIterator<T>;
+ }
+diff --git a/dist/pubsub-engine.js b/dist/pubsub-engine.js
+index 8a9932d84bb2a0faa234c8dcd488e4604b12408f..e35d4e20e51eeddf8f7a1c912eff782921ec2ec5 100644
+--- a/dist/pubsub-engine.js
++++ b/dist/pubsub-engine.js
+@@ -1,12 +1,12 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.PubSubEngine = void 0;
+-var pubsub_async_iterator_1 = require("./pubsub-async-iterator");
++var pubsub_async_iterable_iterator_1 = require("./pubsub-async-iterable-iterator");
+ var PubSubEngine = (function () {
+     function PubSubEngine() {
+     }
+-    PubSubEngine.prototype.asyncIterator = function (triggers) {
+-        return new pubsub_async_iterator_1.PubSubAsyncIterator(this, triggers);
++    PubSubEngine.prototype.asyncIterableIterator = function (triggers) {
++        return new pubsub_async_iterable_iterator_1.PubSubAsyncIterableIterator(this, triggers);
+     };
+     return PubSubEngine;
+ }());
+diff --git a/dist/pubsub-engine.js.map b/dist/pubsub-engine.js.map
+index f681fb474ff38452a77ff2f14a10268a822947a0..5e7913098219fa85e26e1f919e46a850947f1981 100644
+--- a/dist/pubsub-engine.js.map
++++ b/dist/pubsub-engine.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"pubsub-engine.js","sourceRoot":"","sources":["../src/pubsub-engine.ts"],"names":[],"mappings":";;;AAAA,iEAA4D;AAE5D;IAAA;IAOA,CAAC;IAHQ,oCAAa,GAApB,UAAwB,QAA2B;QACjD,OAAO,IAAI,2CAAmB,CAAI,IAAI,EAAE,QAAQ,CAAC,CAAC;IACpD,CAAC;IACH,mBAAC;AAAD,CAAC,AAPD,IAOC;AAPqB,oCAAY"}
+\ No newline at end of file
++{"version":3,"file":"pubsub-engine.js","sourceRoot":"","sources":["../src/pubsub-engine.ts"],"names":[],"mappings":";;;AAAA,mFAA6E;AAE7E;IAAA;IAOA,CAAC;IAHQ,4CAAqB,GAA5B,UAAgC,QAAoC;QAClE,OAAO,IAAI,4DAA2B,CAAI,IAAI,EAAE,QAAQ,CAAC,CAAC;IAC5D,CAAC;IACH,mBAAC;AAAD,CAAC,AAPD,IAOC;AAPqB,oCAAY"}
+\ No newline at end of file
+diff --git a/dist/pubsub.d.ts b/dist/pubsub.d.ts
+index ca0ded288129b35ca9356673a0ef730f595ce2c2..2dd3ab8e103696a7a85806424d6a9122db640523 100644
+--- a/dist/pubsub.d.ts
++++ b/dist/pubsub.d.ts
+@@ -4,12 +4,14 @@ import { PubSubEngine } from './pubsub-engine';
+ export interface PubSubOptions {
+     eventEmitter?: EventEmitter;
+ }
+-export declare class PubSub extends PubSubEngine {
++export declare class PubSub<Events extends {
++    [event: string]: unknown;
++} = Record<string, never>> extends PubSubEngine {
+     protected ee: EventEmitter;
+     private subscriptions;
+     private subIdCounter;
+     constructor(options?: PubSubOptions);
+-    publish(triggerName: string, payload: any): Promise<void>;
+-    subscribe(triggerName: string, onMessage: (...args: any[]) => void): Promise<number>;
++    publish<K extends keyof Events>(triggerName: K & string, payload: Events[K] extends never ? any : Events[K]): Promise<void>;
++    subscribe<K extends keyof Events>(triggerName: K & string, onMessage: (...args: any[]) => void): Promise<number>;
+     unsubscribe(subId: number): void;
+ }
+diff --git a/dist/pubsub.js.map b/dist/pubsub.js.map
+index 0865f2162a7e12f69495678d539ebe6adfea3513..01054395e59734f1b6ce572d42fa85c28f8b2309 100644
+--- a/dist/pubsub.js.map
++++ b/dist/pubsub.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"pubsub.js","sourceRoot":"","sources":["../src/pubsub.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA,iCAAsC;AACtC,iDAA+C;AAM/C;IAA4B,0BAAY;IAKtC,gBAAY,OAA2B;QAA3B,wBAAA,EAAA,YAA2B;QAAvC,YACE,iBAAO,SAIR;QAHC,KAAI,CAAC,EAAE,GAAG,OAAO,CAAC,YAAY,IAAI,IAAI,qBAAY,EAAE,CAAC;QACrD,KAAI,CAAC,aAAa,GAAG,EAAE,CAAC;QACxB,KAAI,CAAC,YAAY,GAAG,CAAC,CAAC;;IACxB,CAAC;IAEM,wBAAO,GAAd,UAAe,WAAmB,EAAE,OAAY;QAC9C,IAAI,CAAC,EAAE,CAAC,IAAI,CAAC,WAAW,EAAE,OAAO,CAAC,CAAC;QACnC,OAAO,OAAO,CAAC,OAAO,EAAE,CAAC;IAC3B,CAAC;IAEM,0BAAS,GAAhB,UAAiB,WAAmB,EAAE,SAAmC;QACvE,IAAI,CAAC,EAAE,CAAC,WAAW,CAAC,WAAW,EAAE,SAAS,CAAC,CAAC;QAC5C,IAAI,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,GAAG,CAAC,CAAC;QAC1C,IAAI,CAAC,aAAa,CAAC,IAAI,CAAC,YAAY,CAAC,GAAG,CAAC,WAAW,EAAE,SAAS,CAAC,CAAC;QAEjE,OAAO,OAAO,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC;IAC5C,CAAC;IAEM,4BAAW,GAAlB,UAAmB,KAAa;QACxB,IAAA,KAA2B,IAAI,CAAC,aAAa,CAAC,KAAK,CAAC,EAAnD,WAAW,QAAA,EAAE,SAAS,QAA6B,CAAC;QAC3D,OAAO,IAAI,CAAC,aAAa,CAAC,KAAK,CAAC,CAAC;QACjC,IAAI,CAAC,EAAE,CAAC,cAAc,CAAC,WAAW,EAAE,SAAS,CAAC,CAAC;IACjD,CAAC;IACH,aAAC;AAAD,CAAC,AA9BD,CAA4B,4BAAY,GA8BvC;AA9BY,wBAAM"}
+\ No newline at end of file
++{"version":3,"file":"pubsub.js","sourceRoot":"","sources":["../src/pubsub.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA,iCAAsC;AACtC,iDAA+C;AAM/C;IAEU,0BAAY;IAKpB,gBAAY,OAA2B;QAA3B,wBAAA,EAAA,YAA2B;QAAvC,YACE,iBAAO,SAIR;QAHC,KAAI,CAAC,EAAE,GAAG,OAAO,CAAC,YAAY,IAAI,IAAI,qBAAY,EAAE,CAAC;QACrD,KAAI,CAAC,aAAa,GAAG,EAAE,CAAC;QACxB,KAAI,CAAC,YAAY,GAAG,CAAC,CAAC;;IACxB,CAAC;IAEM,wBAAO,GAAd,UACE,WAAuB,EACvB,OAAkD;QAElD,IAAI,CAAC,EAAE,CAAC,IAAI,CAAC,WAAW,EAAE,OAAO,CAAC,CAAC;QACnC,OAAO,OAAO,CAAC,OAAO,EAAE,CAAC;IAC3B,CAAC;IAEM,0BAAS,GAAhB,UACE,WAAuB,EACvB,SAAmC;QAEnC,IAAI,CAAC,EAAE,CAAC,WAAW,CAAC,WAAW,EAAE,SAAS,CAAC,CAAC;QAC5C,IAAI,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,GAAG,CAAC,CAAC;QAC1C,IAAI,CAAC,aAAa,CAAC,IAAI,CAAC,YAAY,CAAC,GAAG,CAAC,WAAW,EAAE,SAAS,CAAC,CAAC;QAEjE,OAAO,OAAO,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC;IAC5C,CAAC;IAEM,4BAAW,GAAlB,UAAmB,KAAa;QACxB,IAAA,KAA2B,IAAI,CAAC,aAAa,CAAC,KAAK,CAAC,EAAnD,WAAW,QAAA,EAAE,SAAS,QAA6B,CAAC;QAC3D,OAAO,IAAI,CAAC,aAAa,CAAC,KAAK,CAAC,CAAC;QACjC,IAAI,CAAC,EAAE,CAAC,cAAc,CAAC,WAAW,EAAE,SAAS,CAAC,CAAC;IACjD,CAAC;IACH,aAAC;AAAD,CAAC,AAtCD,CAEU,4BAAY,GAoCrB;AAtCY,wBAAM"}
+\ No newline at end of file
+diff --git a/dist/with-filter.d.ts b/dist/with-filter.d.ts
+index 5c21e07003bac1bfbbf53d433e52960d840563d8..ac8c3cffcdc4230d1f9aa5a53cb957d4a738706c 100644
+--- a/dist/with-filter.d.ts
++++ b/dist/with-filter.d.ts
+@@ -1,3 +1,4 @@
+-export declare type FilterFn = (rootValue?: any, args?: any, context?: any, info?: any) => boolean | Promise<boolean>;
+-export declare type ResolverFn = (rootValue?: any, args?: any, context?: any, info?: any) => AsyncIterator<any>;
+-export declare const withFilter: (asyncIteratorFn: ResolverFn, filterFn: FilterFn) => ResolverFn;
++export declare type FilterFn<TSource = any, TArgs = any, TContext = any> = (rootValue?: TSource, args?: TArgs, context?: TContext, info?: any) => boolean | Promise<boolean>;
++export declare type ResolverFn<TSource = any, TArgs = any, TContext = any> = (rootValue?: TSource, args?: TArgs, context?: TContext, info?: any) => AsyncIterableIterator<any> | Promise<AsyncIterableIterator<any>>;
++export declare type WithFilter<TSource = any, TArgs = any, TContext = any> = (asyncIteratorFn: ResolverFn<TSource, TArgs, TContext>, filterFn: FilterFn<TSource, TArgs, TContext>) => ResolverFn<TSource, TArgs, TContext>;
++export declare function withFilter<TSource = any, TArgs = any, TContext = any>(asyncIteratorFn: ResolverFn<TSource, TArgs, TContext>, filterFn: FilterFn<TSource, TArgs, TContext>): ResolverFn<TSource, TArgs, TContext>;
+diff --git a/dist/with-filter.js b/dist/with-filter.js
+index 4cf46cc572561d76b58229e61ec57843780ae6b1..f6a91c6a6856fcb8e5a8b0630e94927dcc1f0834 100644
+--- a/dist/with-filter.js
++++ b/dist/with-filter.js
+@@ -1,57 +1,101 @@
+ "use strict";
++var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
++    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
++    return new (P || (P = Promise))(function (resolve, reject) {
++        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
++        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
++        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
++        step((generator = generator.apply(thisArg, _arguments || [])).next());
++    });
++};
++var __generator = (this && this.__generator) || function (thisArg, body) {
++    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
++    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
++    function verb(n) { return function (v) { return step([n, v]); }; }
++    function step(op) {
++        if (f) throw new TypeError("Generator is already executing.");
++        while (_) try {
++            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
++            if (y = 0, t) op = [op[0] & 2, t.value];
++            switch (op[0]) {
++                case 0: case 1: t = op; break;
++                case 4: _.label++; return { value: op[1], done: false };
++                case 5: _.label++; y = op[1]; op = [0]; continue;
++                case 7: op = _.ops.pop(); _.trys.pop(); continue;
++                default:
++                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
++                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
++                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
++                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
++                    if (t[2]) _.ops.pop();
++                    _.trys.pop(); continue;
++            }
++            op = body.call(thisArg, _);
++        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
++        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
++    }
++};
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.withFilter = void 0;
+-var iterall_1 = require("iterall");
+-var withFilter = function (asyncIteratorFn, filterFn) {
+-    return function (rootValue, args, context, info) {
++function withFilter(asyncIteratorFn, filterFn) {
++    var _this = this;
++    return function (rootValue, args, context, info) { return __awaiter(_this, void 0, void 0, function () {
++        var asyncIterator, getNextPromise, asyncIterator2;
+         var _a;
+-        var asyncIterator = asyncIteratorFn(rootValue, args, context, info);
+-        var getNextPromise = function () {
+-            return new Promise(function (resolve, reject) {
+-                var inner = function () {
+-                    asyncIterator
+-                        .next()
+-                        .then(function (payload) {
+-                        if (payload.done === true) {
+-                            resolve(payload);
+-                            return;
+-                        }
+-                        Promise.resolve(filterFn(payload.value, args, context, info))
+-                            .catch(function () { return false; })
+-                            .then(function (filterResult) {
+-                            if (filterResult === true) {
+-                                resolve(payload);
+-                                return;
+-                            }
++        return __generator(this, function (_b) {
++            switch (_b.label) {
++                case 0: return [4, asyncIteratorFn(rootValue, args, context, info)];
++                case 1:
++                    asyncIterator = _b.sent();
++                    getNextPromise = function () {
++                        return new Promise(function (resolve, reject) {
++                            var inner = function () {
++                                asyncIterator
++                                    .next()
++                                    .then(function (payload) {
++                                    if (payload.done === true) {
++                                        resolve(payload);
++                                        return;
++                                    }
++                                    Promise.resolve(filterFn(payload.value, args, context, info))
++                                        .catch(function () { return false; })
++                                        .then(function (filterResult) {
++                                        if (filterResult === true) {
++                                            resolve(payload);
++                                            return;
++                                        }
++                                        inner();
++                                        return;
++                                    });
++                                })
++                                    .catch(function (err) {
++                                    reject(err);
++                                    return;
++                                });
++                            };
+                             inner();
+-                            return;
+                         });
+-                    })
+-                        .catch(function (err) {
+-                        reject(err);
+-                        return;
+-                    });
+-                };
+-                inner();
+-            });
+-        };
+-        var asyncIterator2 = (_a = {
+-                next: function () {
+-                    return getNextPromise();
+-                },
+-                return: function () {
+-                    return asyncIterator.return();
+-                },
+-                throw: function (error) {
+-                    return asyncIterator.throw(error);
+-                }
+-            },
+-            _a[iterall_1.$$asyncIterator] = function () {
+-                return this;
+-            },
+-            _a);
+-        return asyncIterator2;
+-    };
+-};
++                    };
++                    asyncIterator2 = (_a = {
++                            next: function () {
++                                return getNextPromise();
++                            },
++                            return: function () {
++                                return asyncIterator.return();
++                            },
++                            throw: function (error) {
++                                return asyncIterator.throw(error);
++                            }
++                        },
++                        _a[Symbol.asyncIterator] = function () {
++                            return this;
++                        },
++                        _a);
++                    return [2, asyncIterator2];
++            }
++        });
++    }); };
++}
+ exports.withFilter = withFilter;
++;
+ //# sourceMappingURL=with-filter.js.map
+\ No newline at end of file
+diff --git a/dist/with-filter.js.map b/dist/with-filter.js.map
+index b0acbd7031aad5760a12ac700830c55da1830977..6d2271f689de40130593c481e386629f6a83e3ca 100644
+--- a/dist/with-filter.js.map
++++ b/dist/with-filter.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"with-filter.js","sourceRoot":"","sources":["../src/with-filter.ts"],"names":[],"mappings":";;;AAAA,mCAA0C;AASnC,IAAM,UAAU,GAAG,UAAC,eAA2B,EAAE,QAAkB;IACxE,OAAO,UAAC,SAAc,EAAE,IAAS,EAAE,OAAY,EAAE,IAAS;;QACxD,IAAM,aAAa,GAAG,eAAe,CAAC,SAAS,EAAE,IAAI,EAAE,OAAO,EAAE,IAAI,CAAC,CAAC;QAEtE,IAAM,cAAc,GAAG;YACrB,OAAO,IAAI,OAAO,CAAsB,UAAC,OAAO,EAAE,MAAM;gBAEtD,IAAM,KAAK,GAAG;oBACZ,aAAa;yBACV,IAAI,EAAE;yBACN,IAAI,CAAC,UAAA,OAAO;wBACX,IAAI,OAAO,CAAC,IAAI,KAAK,IAAI,EAAE;4BACzB,OAAO,CAAC,OAAO,CAAC,CAAC;4BACjB,OAAO;yBACR;wBACD,OAAO,CAAC,OAAO,CAAC,QAAQ,CAAC,OAAO,CAAC,KAAK,EAAE,IAAI,EAAE,OAAO,EAAE,IAAI,CAAC,CAAC;6BAC1D,KAAK,CAAC,cAAM,OAAA,KAAK,EAAL,CAAK,CAAC;6BAClB,IAAI,CAAC,UAAA,YAAY;4BAChB,IAAI,YAAY,KAAK,IAAI,EAAE;gCACzB,OAAO,CAAC,OAAO,CAAC,CAAC;gCACjB,OAAO;6BACR;4BAED,KAAK,EAAE,CAAC;4BACR,OAAO;wBACT,CAAC,CAAC,CAAC;oBACP,CAAC,CAAC;yBACD,KAAK,CAAC,UAAC,GAAG;wBACT,MAAM,CAAC,GAAG,CAAC,CAAC;wBACZ,OAAO;oBACT,CAAC,CAAC,CAAC;gBACP,CAAC,CAAC;gBAEF,KAAK,EAAE,CAAC;YAEV,CAAC,CAAC,CAAC;QACL,CAAC,CAAC;QAEF,IAAM,cAAc;gBAClB,IAAI;oBACF,OAAO,cAAc,EAAE,CAAC;gBAC1B,CAAC;gBACD,MAAM;oBACJ,OAAO,aAAa,CAAC,MAAM,EAAE,CAAC;gBAChC,CAAC;gBACD,KAAK,YAAC,KAAK;oBACT,OAAO,aAAa,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC;gBACpC,CAAC;;YACD,GAAC,yBAAe,IAAhB;gBACE,OAAO,IAAI,CAAC;YACd,CAAC;eACF,CAAC;QAEF,OAAO,cAAc,CAAC;IACxB,CAAC,CAAC;AACJ,CAAC,CAAC;AAvDW,QAAA,UAAU,cAuDrB"}
+\ No newline at end of file
++{"version":3,"file":"with-filter.js","sourceRoot":"","sources":["../src/with-filter.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAQA,SAAgB,UAAU,CACxB,eAAqD,EACrD,QAA4C;IAF9C,iBA0DC;IAtDC,OAAO,UAAO,SAAkB,EAAE,IAAW,EAAE,OAAiB,EAAE,IAAS;;;;;wBACnD,WAAM,eAAe,CAAC,SAAS,EAAE,IAAI,EAAE,OAAO,EAAE,IAAI,CAAC,EAAA;;oBAArE,aAAa,GAAG,SAAqD;oBAErE,cAAc,GAAG;wBACrB,OAAO,IAAI,OAAO,CAAsB,UAAC,OAAO,EAAE,MAAM;4BAEtD,IAAM,KAAK,GAAG;gCACZ,aAAa;qCACV,IAAI,EAAE;qCACN,IAAI,CAAC,UAAA,OAAO;oCACX,IAAI,OAAO,CAAC,IAAI,KAAK,IAAI,EAAE;wCACzB,OAAO,CAAC,OAAO,CAAC,CAAC;wCACjB,OAAO;qCACR;oCACD,OAAO,CAAC,OAAO,CAAC,QAAQ,CAAC,OAAO,CAAC,KAAK,EAAE,IAAI,EAAE,OAAO,EAAE,IAAI,CAAC,CAAC;yCAC1D,KAAK,CAAC,cAAM,OAAA,KAAK,EAAL,CAAK,CAAC;yCAClB,IAAI,CAAC,UAAA,YAAY;wCAChB,IAAI,YAAY,KAAK,IAAI,EAAE;4CACzB,OAAO,CAAC,OAAO,CAAC,CAAC;4CACjB,OAAO;yCACR;wCAED,KAAK,EAAE,CAAC;wCACR,OAAO;oCACT,CAAC,CAAC,CAAC;gCACP,CAAC,CAAC;qCACD,KAAK,CAAC,UAAC,GAAG;oCACT,MAAM,CAAC,GAAG,CAAC,CAAC;oCACZ,OAAO;gCACT,CAAC,CAAC,CAAC;4BACP,CAAC,CAAC;4BAEF,KAAK,EAAE,CAAC;wBAEV,CAAC,CAAC,CAAC;oBACL,CAAC,CAAC;oBAEI,cAAc;4BAClB,IAAI;gCACF,OAAO,cAAc,EAAE,CAAC;4BAC1B,CAAC;4BACD,MAAM;gCACJ,OAAO,aAAa,CAAC,MAAM,EAAE,CAAC;4BAChC,CAAC;4BACD,KAAK,YAAC,KAAK;gCACT,OAAO,aAAa,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC;4BACpC,CAAC;;wBACD,GAAC,MAAM,CAAC,aAAa,IAArB;4BACE,OAAO,IAAI,CAAC;wBACd,CAAC;2BACF,CAAC;oBAEF,WAAO,cAAc,EAAC;;;SACvB,CAAC;AACJ,CAAC;AA1DD,gCA0DC;AAAA,CAAC"}
+\ No newline at end of file
