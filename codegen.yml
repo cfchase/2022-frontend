@@ -1,0 +1,12 @@
+schema: 'backend/src/graphql/modules/**/*.gql'
+generates:
+  ./backend/src/graphql/modules/:
+    preset: graphql-modules
+    presetConfig:
+      baseTypesPath: generated.types.ts
+      encapsulateModuleTypes: none
+      filename: generated.types.ts
+      useGraphQLModules: false
+    plugins:
+      - typescript
+      - typescript-resolvers

@@ -1,46 +1,85 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import fastify, { FastifyInstance } from 'fastify';
-import { ServerOptions } from 'ws';
-import { WebsocketPluginOptions } from 'fastify-websocket';
+import { ApolloServer } from 'apollo-server-fastify';
 import {
-  WS_MAX_PAYLOAD,
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageGraphQLPlayground,
+} from 'apollo-server-core';
+import { ApolloServerPlugin } from 'apollo-server-plugin-base';
+import { execute, GraphQLSchema, subscribe } from 'graphql';
+import { createServer } from 'http';
+import fastify, { FastifyInstance } from 'fastify';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import {
+  FASTIFY_LOG_ENABLED,
+  GRAPHQL_ENDPOINT,
+  HTTP_ADDRESS,
   HTTP_PORT,
   NODE_ENV,
-  FASTIFY_LOG_ENABLED,
+  WS_MAX_PAYLOAD,
 } from './config';
 import { getWsAddressFromServer } from './utils';
 
-const { version } = require('../package.json');
-const app = fastify({ logger: NODE_ENV === 'dev' || FASTIFY_LOG_ENABLED });
+// const { version } = require('../package.json');
 
-// Provides a health endpoint to check
-app.register(require('./plugins/health'), {
-  options: {
-    version,
-  },
-});
-
-// Register the WS plugin, apply a max payload limit, and optional authorisation
-app.register(require('fastify-websocket'), {
-  options: {
-    maxPayload: WS_MAX_PAYLOAD,
-    verifyClient: (info, next) => {
-      // Can add optional verification logic into this block
-      next(true);
+function ApolloServerPluginDrainSubscriptionServer(
+  subscriptionServer: SubscriptionServer
+): ApolloServerPlugin {
+  return {
+    async serverWillStart() {
+      return {
+        async drainServer() {
+          subscriptionServer.close();
+        },
+      };
     },
-  } as ServerOptions,
-} as WebsocketPluginOptions);
+  };
+}
 
-// Expose the game WS endpoint
-app.register(require('./plugins/game'));
+export default async function startServer(
+  schema: GraphQLSchema
+): Promise<FastifyInstance> {
+  const app = fastify({ logger: NODE_ENV === 'dev' || FASTIFY_LOG_ENABLED });
 
-export default async function startServer(): Promise<FastifyInstance> {
+  const subscriptionServer = SubscriptionServer.create(
+    {
+      schema,
+      execute,
+      subscribe,
+      onConnect(
+        connectionParams: unknown,
+        webSocket: unknown,
+        context: unknown
+      ) {
+        app.log.info('Connected!', connectionParams, webSocket, context);
+      },
+      onDisconnect(webSocket: unknown, context: unknown) {
+        app.log.info('Disconnected!', webSocket, context);
+      },
+    },
+    { server: app.server, path: GRAPHQL_ENDPOINT }
+  );
+
+  const server = new ApolloServer({
+    schema,
+    plugins: [
+      ApolloServerPluginDrainSubscriptionServer(subscriptionServer),
+      ApolloServerPluginDrainHttpServer({ httpServer: app.server }),
+      ApolloServerPluginLandingPageGraphQLPlayground({
+        endpoint: GRAPHQL_ENDPOINT,
+        subscriptionEndpoint: GRAPHQL_ENDPOINT,
+      }),
+    ],
+  });
+
   try {
-    await app.listen(HTTP_PORT, '0.0.0.0');
+    await server.start();
+
+    app.register(server.createHandler());
+    await app.listen(HTTP_PORT, HTTP_ADDRESS);
 
     app.log.info(
-      `connect via WebSocket to ws://${getWsAddressFromServer(app.server)}/game`
+      `🚀 Server ready at http://${HTTP_ADDRESS}:${HTTP_PORT}${server.graphqlPath}`
     );
 
     return app;

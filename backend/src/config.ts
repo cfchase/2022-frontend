@@ -11,6 +11,7 @@ const config = {
   LOG_LEVEL: get('LOG_LEVEL').asString(),
   FASTIFY_LOG_ENABLED: get('FASTIFY_LOG_ENABLED').default('false').asBool(),
 
+  HTTP_ADDRESS: get('HTTP_ADDRESS').default('0.0.0.0').asString(),
   // HTTP and WebSocket traffic both use this port
   HTTP_PORT: get('HTTP_PORT').default(8080).asPortNumber(),
 
@@ -18,6 +19,8 @@ const config = {
   CACHE_STORE_GAME_DATA: 'game',
   CACHE_KEY_GAME_DATA: 'game-data',
   CACHE_PLAYER_DATA_STORE: 'players',
+
+  GRAPHQL_ENDPOINT: '/graphql',
 
   // Maximum number of connections to use when making http requests to
   // a given origin. This does not affect incoming requests to this server

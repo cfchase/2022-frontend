@@ -4,6 +4,7 @@
   "description": "",
   "main": ".eslintrc.js",
   "scripts": {
+    "backend:dev": "yarn dev",
     "build": "tsc",
     "dev": "NODE_ENV=dev CLUSTER_NAME='Local Dev' LOG_LEVEL=trace nodemon -e ts,js -x ts-node src/index.ts | pino-pretty -t",
     "lint": "eslint 'src/**/*.ts'",
@@ -38,16 +39,25 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "@graphql-tools/load-files": "^6.5.3",
+    "@graphql-tools/merge": "^8.2.2",
+    "@graphql-tools/schema": "^8.3.1",
+    "@graphql-tools/utils": "^8.6.1",
     "ajv": "^8.10.0",
+    "apollo-server-core": "^3.6.3",
+    "apollo-server-fastify": "^3.6.3",
     "delay": "^5.0.0",
     "env-var": "^7.1.1",
     "fastify": "^3.27.1",
     "fastify-plugin": "^3.0.1",
     "fastify-websocket": "^4.0.0",
+    "graphql": "^16.3.0",
+    "graphql-subscriptions": "2.0.0",
     "humanize-duration": "^3.27.1",
     "make-promises-safe": "^5.1.0",
     "nanoid": "^3.2.0",
     "pino": "^7.6.5",
+    "subscriptions-transport-ws": "^0.11.0",
     "ws": "^8.4.2"
   }
 }
