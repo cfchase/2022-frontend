@@ -22,7 +22,7 @@ const resolvers: Resolvers = {
           state: 'LOBBY',
         } as const;
 
-        pubsub.publish('GAME_STATE_UPDATED', gameConfig);
+        pubsub.publish('GAME_STATE_UPDATED', { gameConfig });
       }
 
       return gameConfig;

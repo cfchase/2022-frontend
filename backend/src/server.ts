@@ -67,6 +67,7 @@ export default async function startServer(
       ApolloServerPluginDrainHttpServer({ httpServer: app.server }),
       ApolloServerPluginLandingPageGraphQLPlayground({
         endpoint: GRAPHQL_ENDPOINT,
+        subscriptionEndpoint: GRAPHQL_ENDPOINT,
       }),
     ],
   });
