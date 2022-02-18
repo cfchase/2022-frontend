@@ -1,0 +1,8 @@
+query AppQuery {
+  gameConfig {
+    uuid
+    date
+    state
+    cluster
+  }
+}

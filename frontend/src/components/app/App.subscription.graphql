@@ -1,0 +1,6 @@
+subscription AppSubscription {
+  gameConfig {
+    uuid
+    state
+  }
+}

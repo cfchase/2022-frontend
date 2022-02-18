@@ -1,0 +1,31 @@
+enum GameState {
+  LOBBY
+  ACTIVE
+  PAUSED
+  STOPPED
+}
+
+type GameConfiguration {
+  uuid: ID!
+  date: String!
+  state: GameState!
+  cluster: String!
+}
+
+type Query {
+  gameConfig: GameConfiguration
+}
+
+input ConnectionRequest {
+  username: String
+  gameId: String
+  playerId: String
+}
+
+type Mutation {
+  connect(request: ConnectionRequest): GameConfiguration!
+}
+
+type Subscription {
+  gameConfig: GameConfiguration
+}
