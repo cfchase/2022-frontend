@@ -21,7 +21,8 @@
     "@apollo-elements/components": "^2.0.0",
     "@apollo-elements/core": "^1.0.0",
     "@apollo/client": "^3.5.4",
-    "pwa-helpers": "^0.9.1"
+    "pwa-helpers": "^0.9.1",
+    "subscriptions-transport-ws": "^0.11.0"
   },
   "devDependencies": {
     "@apollo-elements/create": "^3.0.3",

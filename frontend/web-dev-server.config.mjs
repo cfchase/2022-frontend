@@ -1,10 +1,12 @@
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fromRollup } from '@web/dev-server-rollup';
 import { resolveCodegenPlugin } from '@apollo-elements/create/helpers.js';
+import _commonjs from '@rollup/plugin-commonjs';
 
 import _litcss from 'rollup-plugin-lit-css';
 
 const litcss = fromRollup(_litcss);
+const commonjs = fromRollup(_commonjs);
 
 export default {
   nodeResolve: true,
@@ -22,5 +24,6 @@ export default {
       include: 'src/components/**/*.css',
       exclude: ['src/style.css'],
     }),
+    commonjs()
   ],
 };
