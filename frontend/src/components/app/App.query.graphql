@@ -1,4 +1,8 @@
 query GameConfigQuery {
+  location @client {
+    pathname
+  }
+
   gameConfig {
     uuid
     date

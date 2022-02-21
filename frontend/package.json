@@ -1,14 +1,14 @@
 {
   "main": "index.html",
   "private": true,
-  "name": "apollo-elements-app",
+  "name": "frontend",
   "version": "1.0.0",
   "type": "module",
   "author": "",
   "license": "ISC",
   "description": "Apollo Elements App",
   "scripts": {
-    "start": "run-p start:*",
+    "start": "concurrently 'yarn workspace frontend start:codegen' 'yarn workspace frontend start:serve'",
     "start:codegen": "graphql-codegen --watch",
     "start:serve": "wds --watch --open",
     "lint": "eslint",

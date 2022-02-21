@@ -30,9 +30,13 @@ const resolvers: Resolvers = {
   },
   Subscription: {
     gameConfig: {
-      subscribe: async () =>
-        pubsub.asyncIterableIterator(['GAME_STATE_UPDATED']),
-    },
+      resolve: () => gameConfig,
+      subscribe: async () => ({
+        [Symbol.asyncIterator]() {
+          return pubsub.asyncIterator('GAME_STATE_UPDATED');
+        }
+      })
+    }
   },
 };
 

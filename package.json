@@ -6,7 +6,7 @@
     "frontend"
   ],
   "scripts": {
-    "dev": "concurrently \"yarn generate:types --watch\" \"yarn backend:dev\"",
+    "dev": "concurrently \"yarn generate:types --watch\" \"yarn backend:dev\" \"yarn workspace frontend start\"",
     "generate:types": "graphql-codegen"
   },
   "devDependencies": {

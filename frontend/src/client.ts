@@ -1,13 +1,15 @@
-import { ApolloLink, ApolloClient, InMemoryCache, HttpLink, Observable } from '@apollo/client/core';
-import { WebSocketLink } from "@apollo/client/link/ws";
+import {
+  ApolloLink,
+  ApolloClient,
+  InMemoryCache,
+  Observable,
+  FetchResult,
+  Operation,
+} from '@apollo/client/core';
 import { print } from 'graphql';
 import { createClient, ClientOptions, Client } from 'graphql-ws';
 
-const uri = 'http://localhost:8080/graphql';
-
 import { locationVar } from './router';
-
-// export const link = new HttpLink({ uri });
 
 class WebSocketLink extends ApolloLink {
   private client: Client;
@@ -18,7 +20,7 @@ class WebSocketLink extends ApolloLink {
   }
 
   public request(operation: Operation): Observable<FetchResult> {
-    return new Observable((sink) => {
+    return new Observable(sink => {
       return this.client.subscribe<FetchResult>(
         { ...operation, query: print(operation.query) },
         {
@@ -32,7 +34,8 @@ class WebSocketLink extends ApolloLink {
 }
 
 const link = new WebSocketLink({
-  url: 'ws://locahost:8080/graphql',
+  // url: 'ws://localhost:8080/graphql',
+  url: 'ws://0.0.0.0:8080/graphql',
 });
 
 const cache =
@@ -50,3 +53,4 @@ const cache =
 
 export const client =
   new ApolloClient({ cache, link });
+

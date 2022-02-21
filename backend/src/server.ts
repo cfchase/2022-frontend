@@ -1,15 +1,18 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import type { GraphQLSchema } from 'graphql';
 
-import { ApolloServer } from 'apollo-server-fastify';
+import express from 'express';
+import http from 'http';
+import path from 'path';
+
+import { ApolloServer } from 'apollo-server-express';
 import {
   ApolloServerPluginDrainHttpServer,
   ApolloServerPluginLandingPageGraphQLPlayground,
 } from 'apollo-server-core';
-import { ApolloServerPlugin } from 'apollo-server-plugin-base';
-import { execute, GraphQLSchema, subscribe } from 'graphql';
-import { createServer } from 'http';
-import fastify, { FastifyInstance } from 'fastify';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
+
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+
 import {
   FASTIFY_LOG_ENABLED,
   GRAPHQL_ENDPOINT,
@@ -18,73 +21,59 @@ import {
   NODE_ENV,
   WS_MAX_PAYLOAD,
 } from './config';
-import { getWsAddressFromServer } from './utils';
+import { healthCheck } from './plugins/health';
+import { AddressInfo } from 'net';
 
-// const { version } = require('../package.json');
 
-function ApolloServerPluginDrainSubscriptionServer(
-  subscriptionServer: SubscriptionServer
-): ApolloServerPlugin {
-  return {
-    async serverWillStart() {
-      return {
-        async drainServer() {
-          subscriptionServer.close();
-        },
-      };
-    },
-  };
-}
+export default async function startApolloServer(schema: GraphQLSchema) {
+  // TODO: replace fastify logging with something appropriate
+  const app = express();
 
-export default async function startServer(
-  schema: GraphQLSchema
-): Promise<FastifyInstance> {
-  const app = fastify({ logger: NODE_ENV === 'dev' || FASTIFY_LOG_ENABLED });
-
-  const subscriptionServer = SubscriptionServer.create(
-    {
-      schema,
-      execute,
-      subscribe,
-      onConnect(
-        connectionParams: unknown,
-        webSocket: unknown,
-        context: unknown
-      ) {
-        app.log.info('Connected!', connectionParams, webSocket, context);
-      },
-      onDisconnect(webSocket: unknown, context: unknown) {
-        app.log.info('Disconnected!', webSocket, context);
-      },
-    },
-    { server: app.server, path: GRAPHQL_ENDPOINT }
-  );
-
+  const httpServer = http.createServer(app);
   const server = new ApolloServer({
     schema,
     plugins: [
-      ApolloServerPluginDrainSubscriptionServer(subscriptionServer),
-      ApolloServerPluginDrainHttpServer({ httpServer: app.server }),
-      ApolloServerPluginLandingPageGraphQLPlayground({
-        endpoint: GRAPHQL_ENDPOINT,
-        subscriptionEndpoint: GRAPHQL_ENDPOINT,
-      }),
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      // ApolloServerPluginLandingPageGraphQLPlayground({
+      //   endpoint: GRAPHQL_ENDPOINT,
+      //   subscriptionEndpoint: GRAPHQL_ENDPOINT,
+      // }),
     ],
   });
 
-  try {
-    await server.start();
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: GRAPHQL_ENDPOINT,
+  });
 
-    app.register(server.createHandler());
-    await app.listen(HTTP_PORT, HTTP_ADDRESS);
+  wsServer.on('listening', function() {
+    const { port, family, address } = wsServer.address() as AddressInfo;
+    console.log(`🚀 Subscriptions ready at ws://${address}:${port}${GRAPHQL_ENDPOINT} - ${family}`);
+  })
 
-    app.log.info(
-      `🚀 Server ready at http://${HTTP_ADDRESS}:${HTTP_PORT}${server.graphqlPath}`
-    );
+  app.get('/health', healthCheck(wsServer));
+  app.get('/graphql', (_, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'graphiql', 'index.html'))
+  })
+  
+  useServer({ schema,
+    // season to taste...
+    onConnect: (ctx) => console.log('Connected', ctx),
+    onSubscribe: (ctx, msg) => console.log('Subscribe', { ctx, msg }),
+    onNext: (ctx, msg, args, result) => console.debug('Next', { ctx, msg, args, result }),
+    onError: (ctx, msg, errors) => console.error('Error', { ctx, msg, errors }),
+    onComplete: (ctx, msg) => console.log('Completed!', { ctx, msg }),
+    onDisconnect: (ctx, msg, args) => console.log('Disconnected!', ctx, msg, args),
+  }, wsServer);
 
-    return app;
-  } catch (err) {
-    app.log.error(err);
-    process.exit(1);
-  }
+  await server.start();
+
+  server.applyMiddleware({ app });
+
+  await new Promise<void>(resolve => httpServer.listen(HTTP_PORT, HTTP_ADDRESS, resolve));
+
+  console.log(`🚀 HTTP Server   ready at http://${HTTP_ADDRESS}:${HTTP_PORT}${server.graphqlPath}`);
+
+  return app
 }
+
