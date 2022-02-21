@@ -1,4 +1,4 @@
-schema: schema.graphql
+schema: ../backend/src/graphql/modules/game.configuration/types.gql
 
 extensions:
   codegen:

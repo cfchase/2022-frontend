@@ -6,18 +6,45 @@
     "frontend"
   ],
   "scripts": {
-    "dev": "concurrently \"yarn generate:types --watch\" \"yarn backend:dev\" \"yarn frontend:start\"",
+    "dev": "concurrently \"yarn generate:types --watch\" \"yarn backend:dev\"",
     "generate:types": "graphql-codegen"
   },
   "devDependencies": {
+    "@apollo-elements/create": "^3.0.3",
     "@graphql-codegen/cli": "^2.6.1",
     "@graphql-codegen/graphql-modules-preset": "^2.3.3",
+    "@graphql-codegen/near-operation-file-preset": "^2.2.2",
+    "@graphql-codegen/typed-document-node": "^2.2.1",
     "@graphql-codegen/typescript": "^2.4.3",
+    "@graphql-codegen/typescript-operations": "^2.2.1",
     "@graphql-codegen/typescript-resolvers": "^2.5.0",
+    "@open-wc/rollup-plugin-html": "^1.x",
+    "@pwrs/eslint-config": "^0.x",
+    "@rollup/plugin-commonjs": "^17.x",
+    "@rollup/plugin-node-resolve": "^11.x",
+    "@types/humanize-duration": "^3.27.1",
+    "@types/node": "^16.0.0",
+    "@types/ws": "^8.2.2",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "@web/dev-server": "^0.1.x",
+    "@web/dev-server-esbuild": "^0.2.x",
+    "@web/dev-server-rollup": "^0.3.x",
     "concurrently": "^7.0.0",
-    "graphql": "^16.3.0"
-  },
-  "resolutions": {
-    "graphql-subscriptions@2.0.0": "patch:graphql-subscriptions@npm:2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84"
+    "dotenv": "^16.0.0",
+    "eslint": "^8.8.0",
+    "graphql": "^16.3.0",
+    "graphql-ws": "^5.6.0",
+    "husky": "~4.3.6",
+    "nodemon": "^2.0.15",
+    "npm-run-all": "^4.x",
+    "pino-pretty": "~4.3.0",
+    "prettier": "~2.2.1",
+    "pretty-quick": "~3.1.0",
+    "rollup": "^2.x",
+    "rollup-plugin-esbuild": "^2.x",
+    "rollup-plugin-lit-css": "^2.x",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
   }
 }

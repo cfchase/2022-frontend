@@ -1,0 +1,8 @@
+mutation ConnectionRequestMutation($connectionRequest: ConnectionRequest) {
+  connect(request: $connectionRequest) {
+    uuid
+    cluster
+    date
+    state
+  }
+}

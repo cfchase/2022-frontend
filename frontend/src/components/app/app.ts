@@ -2,7 +2,8 @@ import { LitElement, html, TemplateResult } from 'lit';
 import { ApolloQueryController, ApolloMutationController } from '@apollo-elements/core';
 import { customElement } from 'lit/decorators.js';
 
-import { GameConfigQuery, ConnectionRequestMutation } from './App.query.graphql';
+import { GameConfigQuery } from './App.query.graphql.js';
+import { ConnectionRequestMutation } from './App.mutation.graphql.js';
 
 import style from './app.css';
 import shared from '../shared.css';
