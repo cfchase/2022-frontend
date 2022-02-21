@@ -1,12 +1,25 @@
 import { LitElement, html, TemplateResult } from 'lit';
-import { ApolloQueryController } from '@apollo-elements/core';
+import { ApolloQueryController, ApolloMutationController } from '@apollo-elements/core';
 import { customElement } from 'lit/decorators.js';
 
-import { AppQuery } from './App.query.graphql';
-import { AppSubscription } from './App.subscription.graphql';
+import { GameConfigQuery, ConnectionRequestMutation } from './App.query.graphql';
 
 import style from './app.css';
 import shared from '../shared.css';
+
+export const getLocalStorage = () => {
+	return {
+    username: localStorage.getItem("username"),
+    gameId: localStorage.getItem("gameId"),
+    playerId: localStorage.getItem("playerId"),
+	};
+};
+
+export const updateLocalStorage = (gameId: string, playerId: string, username: string) => {
+	localStorage.setItem("username", username);
+	localStorage.setItem("gameId", gameId);
+	localStorage.setItem("playerId", playerId);
+};
 
 @customElement('apollo-app')
 export class ApolloApp extends LitElement {
@@ -14,33 +27,37 @@ export class ApolloApp extends LitElement {
 
   static readonly styles = [shared, style];
 
-  query = new ApolloQueryController(this, AppQuery);
+  gameConfigQuery = new ApolloQueryController(this, GameConfigQuery);
+  connectionRequestMutation = new ApolloMutationController(this, ConnectionRequestMutation);
 
-  connectedCallback(): void {
-    super.connectedCallback();
-    this.query.subscribeToMore({
-      document: AppSubscription,
-      updateQuery(prev, { subscriptionData }) {
-        if (!subscriptionData.data) return prev;
-        const { subscription, uuid } = subscriptionData;
-        return {
-          ...prev,
-          uuid,
-          state
-        };
-      },
-    })
+  firstUpdated() {
+    this.sendConnectionRequest();
+  }
+
+  public async sendConnectionRequest() {
+    let storedGameConfig = {};
+		// get a previously connected player
+		const previousPlayer = getLocalStorage();
+		if (previousPlayer.gameId && previousPlayer.playerId && previousPlayer.username) {
+			storedGameConfig = previousPlayer;
+		}
+    const { data, error } = await this.connectionRequestMutation.mutate({ variables: storedGameConfig })
+    // store new player and game info
+    if (!error) updateLocalStorage(data);
+    // update the gameconfigQuery
+    this.gameConfigQuery.refetch();
   }
 
   render(): TemplateResult {
-    console.log(this.query);
     return html`
       <dl>
         <dt>Pathname</dt>
-        <dd>${this.query.data?.location?.pathname ?? '/'}</dd>
+        <dd>${this.gameConfigQuery.data?.location?.pathname ?? '/'}</dd>
         <dt>Game Config</dt>
-        <dd>${this.query.data?.gameConfig?.uuid}</dd>
-        <dd>${this.query.data?.gameConfig?.state}</dd>
+        <dd>${this.gameConfigQuery.data?.gameConfig?.uuid}</dd>
+        <dd>${this.gameConfigQuery.data?.gameConfig?.cluster}</dd>
+        <dd>${this.gameConfigQuery.data?.gameConfig?.state}</dd>
+        <dd>${this.gameConfigQuery.data?.gameConfig?.date}</dd>
       </dl>
     `;
   }

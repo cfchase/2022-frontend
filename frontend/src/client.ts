@@ -2,8 +2,7 @@ import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
 
 import { locationVar } from './router';
 
-const uri =
-  '/graphql';
+const uri = 'http://localhost:8080/graphql';
 
 export const link = new HttpLink({ uri });
 

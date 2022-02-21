@@ -1,8 +1,17 @@
-query AppQuery {
+query GameConfigQuery {
   gameConfig {
     uuid
     date
     state
     cluster
+  }
+}
+
+mutation ConnectionRequestMutation($connectionRequest: ConnectionRequest) {
+  connect(request: $connectionRequest) {
+    uuid
+    cluster
+    date
+    state
   }
 }
