@@ -5,9 +5,6 @@ import { uptime } from 'process';
 import humanize from 'humanize-duration';
 import log from '../log';
 
-// import { createRequire } from 'module'
-// const require = createRequire(import.meta.url);
-
 export interface HealthPluginOptions {
   version: string;
 }
@@ -26,6 +23,6 @@ export function healthCheck(wsServer: WebSocketServer) {
       uptime: humanize(uptime() * 1000),
       serverTs: new Date().toJSON(),
       version,
-    })
+    });
   };
 }

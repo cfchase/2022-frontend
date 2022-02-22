@@ -76,7 +76,10 @@ export default async function startApolloServer(schema: GraphQLSchema) {
 
   await server.start();
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({
+    app,
+    disableHealthCheck: true,
+  });
 
   await new Promise<void>((resolve) =>
     httpServer.listen(HTTP_PORT, HTTP_ADDRESS, resolve)
