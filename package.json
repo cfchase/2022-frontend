@@ -6,8 +6,7 @@
     "frontend"
   ],
   "scripts": {
-    "dev": "concurrently \"yarn generate:types --watch\" \"yarn backend:dev\" \"yarn workspace frontend start\"",
-    "generate:types": "graphql-codegen"
+    "dev": "concurrently \"graphql-codegen --watch\" \"yarn workspaces foreach -Apiv run dev\""
   },
   "devDependencies": {
     "@apollo-elements/create": "^3.0.3",

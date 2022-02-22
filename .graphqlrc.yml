@@ -1,5 +1,4 @@
-schema: ../backend/src/graphql/modules/game.configuration/types.gql
-
+schema: backend/src/graphql/modules/**/*.{gql,graphql}
 extensions:
   codegen:
     config:
@@ -14,12 +13,26 @@ extensions:
       useIndexSignature: true     # required for compatibility with apollo server
 
     generates:
-      src/schema.ts:
-        schema: src/client.schema.graphql
+      backend/src/graphql/modules/:
+        preset: graphql-modules
+        presetConfig:
+          baseTypesPath: generated.types.ts
+          encapsulateModuleTypes: none
+          filename: generated.types.ts
+          useGraphQLModules: false
         plugins:
-          - typescript-operations
-      src/:
-        schema: src/client.schema.graphql
+          - typescript
+          - typescript-resolvers
+
+      frontend/src/schema.ts:
+        schema: frontend/src/client.schema.graphql
+        documents: frontend/src/components/**/*.{gql,graphql}
+        plugins:
+          - typescript
+
+      frontend/src/:
+        schema: frontend/src/client.schema.graphql
+        documents: frontend/src/components/**/*.{gql,graphql}
         preset: near-operation-file
         presetConfig:
           baseTypesPath: schema.ts
@@ -27,8 +40,3 @@ extensions:
         plugins:
           - typescript-operations
           - typed-document-node
-        documents:
-          - src/**/*.fragment.graphql
-          - src/**/*.mutation.graphql
-          - src/**/*.query.graphql
-          - src/**/*.subscription.graphql
