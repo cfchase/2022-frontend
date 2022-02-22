@@ -45,5 +45,8 @@
     "rollup-plugin-lit-css": "^2.x",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
+  },
+  "resolutions": {
+    "graphql-subscriptions": "patch:graphql-subscriptions@npm:2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84"
   }
 }

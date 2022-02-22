@@ -6337,7 +6337,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-subscriptions@npm:^2.0.0":
+"graphql-subscriptions@npm:2.0.0":
   version: 2.0.0
   resolution: "graphql-subscriptions@npm:2.0.0"
   dependencies:
@@ -6345,6 +6345,17 @@ __metadata:
   peerDependencies:
     graphql: ^15.7.2 || ^16.0.0
   checksum: 4735ef86462967bca2f549c5e5e30ca63fb6ddde19a81d8601f38fb12f8bda2b5f1203b33df8fd8d1154ffa3eadc2820d407e64b8fda73e319559256c508af21
+  languageName: node
+  linkType: hard
+
+"graphql-subscriptions@patch:graphql-subscriptions@npm:2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84::locator=2022-game-app%40workspace%3A.":
+  version: 2.0.0
+  resolution: "graphql-subscriptions@patch:graphql-subscriptions@npm%3A2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84::version=2.0.0&hash=fa51e0&locator=2022-game-app%40workspace%3A."
+  dependencies:
+    iterall: ^1.3.0
+  peerDependencies:
+    graphql: ^15.7.2 || ^16.0.0
+  checksum: fb92d898e64b40badb0dc46ec7ef8c41f4a4c6e28b9dd71b8ff3b214173ffd9a5ffd4f80916bce4b7caef7e21521163cc5381147be08ba21ebdfa9fb6b6d653f
   languageName: node
   linkType: hard
 
