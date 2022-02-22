@@ -1,0 +1,8 @@
+subscription GameConfigUpdated {
+  gameConfig {
+    uuid
+    date
+    state
+    cluster
+  }
+}

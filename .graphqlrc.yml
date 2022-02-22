@@ -1,0 +1,42 @@
+schema: backend/src/graphql/modules/**/*.{gql,graphql}
+extensions:
+  codegen:
+    config:
+      constEnums: true            # use `const enum` to define unions
+      declarationKind: interface  # use `interface` keyword to define types
+      dedupeOperationSuffix: true # prevent `MyQueryQuery`
+      documentVariableSuffix: ''  # export `MyQuery` instead of `MyQueryDocument`
+      immutableTypes: true        # add `readonly` keyword to frozen objects
+      namingConvention: keep      # don't rename types
+      operationResultSuffix: Data # add `Data` suffix to result types
+      optionalResolveType: true   # make `__resolveType` field optional
+      useIndexSignature: true     # required for compatibility with apollo server
+
+    generates:
+      backend/src/graphql/modules/:
+        preset: graphql-modules
+        presetConfig:
+          baseTypesPath: generated.types.ts
+          encapsulateModuleTypes: none
+          filename: generated.types.ts
+          useGraphQLModules: false
+        plugins:
+          - typescript
+          - typescript-resolvers
+
+      frontend/src/schema.ts:
+        schema: frontend/src/client.schema.graphql
+        documents: frontend/src/components/**/*.{gql,graphql}
+        plugins:
+          - typescript
+
+      frontend/src/:
+        schema: frontend/src/client.schema.graphql
+        documents: frontend/src/components/**/*.{gql,graphql}
+        preset: near-operation-file
+        presetConfig:
+          baseTypesPath: schema.ts
+          extension: .graphql.ts
+        plugins:
+          - typescript-operations
+          - typed-document-node

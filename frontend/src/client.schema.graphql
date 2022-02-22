@@ -1,0 +1,7 @@
+type Location {
+  pathname: String
+}
+
+type Query {
+  location: Location
+}
