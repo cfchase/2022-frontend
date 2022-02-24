@@ -49,8 +49,8 @@ export class ApolloApp extends LitElement {
       const { data } =
         await this.connectionRequestMutation.mutate({ variables: storedGameConfig });
       // store new player and game info
-      updateLocalStorage(data.connect.uuid, 'unknown playerID', 'unknown username');
-      // update the gameconfigQuery
+      updateLocalStorage(data.connect.game.id, 'unknown playerID', 'unknown username');
+      // update the gameConfigQuery
       this.gameConfigQuery.refetch();
     } catch (error) {
       console.error(error);
@@ -64,14 +64,15 @@ export class ApolloApp extends LitElement {
         <dt>Pathname</dt>
         <dd>${this.gameConfigQuery.data?.location?.pathname ?? '/'}</dd>
         <dt>Game Config</dt>
-        <dd>${this.gameConfigQuery.data?.gameConfig?.uuid}</dd>
-        <dd>${this.gameConfigQuery.data?.gameConfig?.cluster}</dd>
-        <dd>${this.gameConfigQuery.data?.gameConfig?.state}</dd>
-        <dd>${this.gameConfigQuery.data?.gameConfig?.date}</dd>
+        <dd>Cluster: ${this.gameConfigQuery.data?.gameConfig?.cluster}</dd>
+        <dd>Date: ${this.gameConfigQuery.data?.gameConfig?.date}</dd>
+        <dt>Game</dt>
+        <dd>ID: ${this.gameConfigSubscription.data?.game?.id}</dd>
+        <dd>State: ${this.gameConfigSubscription.data?.game?.state}</dd>
       </dl>
 
       <h2>Last Config Update</h2>
-      <output>${this.gameConfigSubscription.data?.gameConfig?.uuid}</output>
+      <output>${this.gameConfigSubscription.data?.game?.id}</output>
     `;
   }
 }

@@ -4,9 +4,7 @@ query GameConfigQuery {
   }
 
   gameConfig {
-    uuid
     date
-    state
     cluster
   }
 }

@@ -1,36 +1,26 @@
-import type { GraphQLSchema } from 'graphql';
-
 import express from 'express';
 import http from 'http';
 import path from 'path';
 
 import { ApolloServer } from 'apollo-server-express';
-import {
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageGraphQLPlayground,
-} from 'apollo-server-core';
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 
+import type { AddressInfo } from 'net';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 
-import {
-  FASTIFY_LOG_ENABLED,
-  GRAPHQL_ENDPOINT,
-  HTTP_ADDRESS,
-  HTTP_PORT,
-  NODE_ENV,
-  WS_MAX_PAYLOAD,
-} from './config';
+import { GRAPHQL_ENDPOINT, HTTP_ADDRESS, HTTP_PORT } from './config';
 import { healthCheck } from './plugins/health';
-import { AddressInfo } from 'net';
 
-export default async function startApolloServer(schema: GraphQLSchema) {
+import { application } from './graphql';
+
+export default async function startApolloServer() {
   // TODO: replace fastify logging with something appropriate
   const app = express();
 
   const httpServer = http.createServer(app);
   const server = new ApolloServer({
-    schema,
+    schema: application.schema,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       // ApolloServerPluginLandingPageGraphQLPlayground({
@@ -59,7 +49,9 @@ export default async function startApolloServer(schema: GraphQLSchema) {
 
   useServer(
     {
-      schema,
+      schema: application.schema,
+      execute: application.createExecution(),
+      subscribe: application.createSubscription(),
       // season to taste...
       onConnect: (ctx) => console.log('Connected', ctx),
       onSubscribe: (ctx, msg) => console.log('Subscribe', { ctx, msg }),

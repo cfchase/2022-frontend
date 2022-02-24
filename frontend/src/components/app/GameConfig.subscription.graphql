@@ -1,8 +1,6 @@
 subscription GameConfigUpdated {
-  gameConfig {
-    uuid
-    date
+  game {
+    id
     state
-    cluster
   }
 }
