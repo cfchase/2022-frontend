@@ -7,65 +7,81 @@ import type { TypeScriptDocumentsPluginConfig } from '@graphql-codegen/typescrip
 import type { TypeScriptResolversPluginConfig } from '@graphql-codegen/typescript-resolvers';
 import type { IGraphQLConfig } from 'graphql-config';
 
-type CodegenConfig = TypeScriptPluginConfig &
+type BackendConfig = TypeScriptPluginConfig & TypeScriptResolversPluginConfig;
+
+type FrontendConfig = TypeScriptPluginConfig &
   TypeScriptDocumentsPluginConfig &
-  TypeScriptResolversPluginConfig &
   TypeScriptTypedDocumentNodesConfig;
 
 // Give intellisense to inline object(s)
 const ident = <T>(value: T): T => value;
 
-const graphqlExtension = '{gql,graphql}';
 const graphqlModulesPath = 'backend/src/graphql/modules/';
+const graphqlExtension = '{gql,graphql}';
+const graphqlSchema = `${graphqlModulesPath}**/*.${graphqlExtension}` as const;
+
 const frontendSrcPath = 'frontend/src/';
 const frontendSchemaFile = 'schema.ts';
 const frontendSchemaPath = `${frontendSrcPath}${frontendSchemaFile}` as const;
-const frontendGraphqlSchema = `${frontendSrcPath}client.schema.${graphqlExtension}` as const;
-const frontendDocuments = `${frontendSrcPath}components/**/*.${graphqlExtension}` as const;
 
 const graphqlConfig: IGraphQLConfig = {
-  schema: `${graphqlModulesPath}**/*.${graphqlExtension}`,
-  extensions: {
-    codegen: ident<CodegenTypes.Config>({
-      config: ident<CodegenConfig>({
-        constEnums: true, // use `const enum` to define unions
-        declarationKind: 'interface', // use `interface` keyword to define types
-        immutableTypes: true, // add `readonly` keyword to frozen objects
-        namingConvention: 'keep', // don't rename types
-        dedupeOperationSuffix: true, // prevent `MyQueryQuery`
-        documentVariableSuffix: '', // export `MyQuery` instead of `MyQueryDocument`
-        operationResultSuffix: 'Data', // add `Data` suffix to result types
-        optionalResolveType: true, // make `__resolveType` field optional
-        useIndexSignature: true, // required for compatibility with apollo server
-      }),
-      generates: ident({
-        [graphqlModulesPath]: {
-          preset: 'graphql-modules',
-          presetConfig: ident<ModulesConfig>({
-            baseTypesPath: 'generated.types.ts',
-            encapsulateModuleTypes: 'none',
-            filename: 'generated.types.ts',
-            useGraphQLModules: false,
+  projects: {
+    backend: {
+      schema: graphqlSchema,
+      extensions: {
+        codegen: ident<CodegenTypes.Config>({
+          config: ident<BackendConfig>({
+            optionalResolveType: true, // make `__resolveType` field optional
+            useIndexSignature: true, // required for compatibility with apollo server
           }),
-          plugins: ['typescript', 'typescript-resolvers'],
-        },
-        [frontendSchemaPath]: {
-          schema: frontendGraphqlSchema,
-          documents: frontendDocuments,
-          plugins: ['typescript'],
-        },
-        [frontendSrcPath]: {
-          schema: frontendGraphqlSchema,
-          documents: frontendDocuments,
-          preset: 'near-operation-file',
-          presetConfig: ident<NearOperationFileConfig>({
-            baseTypesPath: frontendSchemaFile,
-            extension: '.graphql.ts',
+          generates: ident({
+            [graphqlModulesPath]: {
+              preset: 'graphql-modules',
+              presetConfig: ident<ModulesConfig>({
+                baseTypesPath: 'generated.types.ts',
+                encapsulateModuleTypes: 'none',
+                filename: 'generated.types.ts',
+                useGraphQLModules: false,
+              }),
+              plugins: ['typescript', 'typescript-resolvers'],
+            },
           }),
-          plugins: ['typescript-operations', 'typed-document-node'],
-        },
-      }),
-    }),
+        }),
+      },
+    },
+    frontend: {
+      schema: [
+        graphqlSchema,
+        `${frontendSrcPath}client.schema.${graphqlExtension}`,
+      ],
+      documents: `${frontendSrcPath}components/**/*.${graphqlExtension}`,
+      extensions: {
+        codegen: ident<CodegenTypes.Config>({
+          config: ident<FrontendConfig>({
+            constEnums: true, // use `const enum` to define unions
+            declarationKind: 'interface', // use `interface` keyword to define types
+            immutableTypes: true, // add `readonly` keyword to frozen objects
+            namingConvention: 'keep', // don't rename types
+            dedupeOperationSuffix: true, // prevent `MyQueryQuery`
+            documentVariableSuffix: '', // export `MyQuery` instead of `MyQueryDocument`
+            operationResultSuffix: 'Data', // add `Data` suffix to result types
+          }),
+          generates: ident({
+            [frontendSchemaPath]: {
+              plugins: ['typescript'],
+            },
+            [frontendSrcPath]: {
+              preset: 'near-operation-file',
+              presetConfig: ident<NearOperationFileConfig>({
+                baseTypesPath: frontendSchemaFile,
+                extension: '.graphql.ts',
+              }),
+              plugins: ['typescript-operations', 'typed-document-node'],
+            },
+          }),
+        }),
+      },
+    },
   },
 };
 
