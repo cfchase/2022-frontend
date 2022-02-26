@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { svg, unsafeStatic } from 'lit/static-html.js';
 import { property, state } from 'lit/decorators.js';
 import { variable } from '../globals.ts';
-import styles from '../../assets/style/summit-22-style.css';
+import styles from '../../assets/style/summit-22-style.css.ts';
 
 export class EFooter extends LitElement {
   static styles = [styles, css`

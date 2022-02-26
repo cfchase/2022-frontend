@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { variable } from '../globals.ts';
-import styles from '../../assets/style/summit-22-style.css';
+import styles from '../../assets/style/summit-22-style.css.ts';
 
 export class EPage extends LitElement {
   static styles = [styles, css``];

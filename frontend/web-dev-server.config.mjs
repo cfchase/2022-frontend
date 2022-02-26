@@ -19,13 +19,12 @@ export default {
     'src/components/**/*.graphql': 'js',
     'src/components/**/*.css': 'js',
     'src/style.css': 'css',
-    'assets/style/summit-22-style.css': 'js',
   },
   plugins: [
     esbuildPlugin({ ts: true }),
     resolveCodegenPlugin({ ts: true }),
     litcss({
-      include: ['src/components/**/*.css', 'assets/style/summit-22-style.css'],
+      include: ['src/components/**/*.css'],
       exclude: ['src/style.css'],
     }),
   ],

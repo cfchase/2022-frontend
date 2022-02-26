@@ -6,17 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="Description" content="Put your description here.">
   <base href="/">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/assets/style/summit-22-style.css">
 
   <style>
-    html,
-    body {
-      font-size: 1rem;
-      margin: 0em;
-      padding: 0em;
-    }
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
     section {
       margin: 5rem;
       max-width: 600px;
@@ -44,15 +37,15 @@
     <h2>e-page</h2>
     <p>This element has slots: 'header', 'footer'</p>
     <e-page>
-      <e-header slot="header"></e-header>
-      <e-footer slot="footer" timer="555">
+      <e-header title="Snazzy Mushroom" slot="header"></e-header>
+      <e-footer slot="footer" timer="55">
       </e-footer>
     </e-page>
   </section>
 
   <section id="header">
     <h2>e-header</h2>
-    <e-header></e-header>
+    <e-header title="Snazzy Mushroom"></e-header>
   </section>
 
   <section id="footer">

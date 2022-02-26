@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import styles from '../../assets/style/summit-22-style.css';
+import styles from '../../assets/style/summit-22-style.css.ts';
 import { variable } from '../globals.ts';
 import { StoreBase, StoreSubscriptionController } from '../store.ts';
 
