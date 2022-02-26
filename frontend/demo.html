@@ -20,6 +20,11 @@
     section {
       margin: 5rem;
       max-width: 600px;
+      position: relative;
+    }
+    #footer e-footer {
+      position: relative;
+      padding-top: clamp(1em, 15vw, 10em);
     }
   </style>
   <title>bike-factory</title>
@@ -37,12 +42,21 @@
 
   <section>
     <h2>e-page</h2>
-    <p>This element has three slots: 'header', 'footer' or default.</p>
+    <p>This element has slots: 'header', 'footer'</p>
     <e-page>
-      <h1 slot="header">Example title</h1>
-      <img src="https://via.placeholder.com/350?text=Bike+Factory"/>
-      <p slot="footer">Footer content</p>
+      <e-header slot="header"></e-header>
+      <e-footer slot="footer"></e-footer>
     </e-page>
+  </section>
+
+  <section id="header">
+    <h2>e-header</h2>
+    <e-header></e-header>
+  </section>
+
+  <section id="footer">
+    <h2>e-footer</h2>
+    <e-footer></e-footer>
   </section>
 
   <section>
@@ -61,6 +75,8 @@
   </section>
 
   <script type="module" src="/src/elements/e-page.ts"></script>
+  <script type="module" src="/src/elements/e-header.ts"></script>
+  <script type="module" src="/src/elements/e-footer.ts"></script>
   <script type="module" src="/src/elements/e-button.ts"></script>
   <script type="module" src="/src/elements/e-countdown.ts"></script>
   <script type="module" src="/src/elements/e-order.ts"></script>
