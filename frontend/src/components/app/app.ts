@@ -14,6 +14,8 @@ import { ConnectionRequestMutation } from './App.mutation.graphql.js';
 import style from './app.css';
 import shared from '../shared.css';
 
+import '../../elements/e-page.ts';
+
 export const getLocalStorage = () => {
   return {
     username: localStorage.getItem('username'),
@@ -72,6 +74,8 @@ export class ApolloApp extends LitElement {
 
       <h2>Last Config Update</h2>
       <output>${this.gameConfigSubscription.data?.gameConfig?.uuid}</output>
+
+      <e-page></e-page>
     `;
   }
 }
