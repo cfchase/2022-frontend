@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="Put your description here.">
+  <base href="/">
+
+  <style>
+    html,
+    body {
+      font-size: 1rem;
+      margin: 0em;
+      padding: 0em;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    section {
+      margin: 5rem;
+      max-width: 600px;
+    }
+  </style>
+  <title>bike-factory</title>
+</head>
+
+<body>
+  <h1>Elements</h1>
+  <p>This page is a collection of stateless components (elements) that are used throughout the application.</p>
+
+  <section>
+    <h2>e-button</h2>
+    <e-button>Start</e-button>
+    <e-button disabled>...Saving</e-button>
+  </section>
+
+  <section>
+    <h2>e-page</h2>
+    <p>This element has three slots: 'header', 'footer' or default.</p>
+    <e-page>
+      <h1 slot="header">Example title</h1>
+      <img src="https://via.placeholder.com/350?text=Bike+Factory"/>
+      <p slot="footer">Footer content</p>
+    </e-page>
+  </section>
+
+  <section>
+    <h2>e-countdown</h2>
+    <e-countdown></e-countdown>
+  </section>
+
+  <section>
+    <h2>e-order</h2>
+    <e-order></e-order>
+  </section>
+
+  <section>
+    <h2>e-meter</h2>
+    <e-meter></e-meter>
+  </section>
+
+  <script type="module" src="/src/elements/e-page.ts"></script>
+  <script type="module" src="/src/elements/e-button.ts"></script>
+  <script type="module" src="/src/elements/e-countdown.ts"></script>
+  <script type="module" src="/src/elements/e-order.ts"></script>
+  <script type="module" src="/src/elements/e-meter.ts"></script>
+</body>
+
+</html>
