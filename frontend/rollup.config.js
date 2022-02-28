@@ -6,7 +6,7 @@ import litcss from 'rollup-plugin-lit-css';
 import esbuild from 'rollup-plugin-esbuild';
 
 export default {
-  input: 'index.html',
+  input: ['index.html'],
 
   output: {
     dir: 'build',
