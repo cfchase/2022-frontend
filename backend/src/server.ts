@@ -2,9 +2,6 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 
-import { ApolloServer } from 'apollo-server-express';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
-
 import type { AddressInfo } from 'net';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
@@ -19,16 +16,6 @@ export default async function startApolloServer() {
   const app = express();
 
   const httpServer = http.createServer(app);
-  const server = new ApolloServer({
-    schema: application.schema,
-    plugins: [
-      ApolloServerPluginDrainHttpServer({ httpServer }),
-      // ApolloServerPluginLandingPageGraphQLPlayground({
-      //   endpoint: GRAPHQL_ENDPOINT,
-      //   subscriptionEndpoint: GRAPHQL_ENDPOINT,
-      // }),
-    ],
-  });
 
   const wsServer = new WebSocketServer({
     server: httpServer,
@@ -43,7 +30,7 @@ export default async function startApolloServer() {
   });
 
   app.get('/health', healthCheck(wsServer));
-  app.get('/graphql', (_, res) => {
+  app.get(GRAPHQL_ENDPOINT, (_, res) => {
     res.sendFile(path.join(__dirname, 'views', 'graphiql', 'index.html'));
   });
 
@@ -66,19 +53,12 @@ export default async function startApolloServer() {
     wsServer
   );
 
-  await server.start();
-
-  server.applyMiddleware({
-    app,
-    disableHealthCheck: true,
-  });
-
   await new Promise<void>((resolve) =>
     httpServer.listen(HTTP_PORT, HTTP_ADDRESS, resolve)
   );
 
   console.log(
-    `🚀 HTTP Server   ready at http://${HTTP_ADDRESS}:${HTTP_PORT}${server.graphqlPath}`
+    `🚀 HTTP Server   ready at http://${HTTP_ADDRESS}:${HTTP_PORT}${GRAPHQL_ENDPOINT}`
   );
 
   return app;
