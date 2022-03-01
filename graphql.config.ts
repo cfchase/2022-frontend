@@ -31,6 +31,7 @@ const graphqlConfig: IGraphQLConfig = {
       extensions: {
         codegen: ident<CodegenTypes.Config>({
           config: ident<BackendConfig>({
+            contextType: 'GraphQLModules.Context',
             optionalResolveType: true, // make `__resolveType` field optional
             useIndexSignature: true, // required for compatibility with apollo server
           }),
@@ -38,10 +39,9 @@ const graphqlConfig: IGraphQLConfig = {
             [graphqlModulesPath]: {
               preset: 'graphql-modules',
               presetConfig: ident<ModulesConfig>({
-                baseTypesPath: 'generated.types.ts',
+                baseTypesPath: 'generated.schema.ts',
                 encapsulateModuleTypes: 'none',
                 filename: 'generated.types.ts',
-                useGraphQLModules: false,
               }),
               plugins: ['typescript', 'typescript-resolvers'],
             },

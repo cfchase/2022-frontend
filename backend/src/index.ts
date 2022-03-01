@@ -1,4 +1,5 @@
 import 'make-promises-safe';
+import 'reflect-metadata';
 
 import startServer from './server';
 import log from './log';

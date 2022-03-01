@@ -1,47 +1,20 @@
-import { nanoid } from 'nanoid';
-import { PubSub } from 'graphql-subscriptions';
-import { Game, GameConfiguration, Resolvers } from './generated.types';
-import { Maybe } from '../generated.types';
-import { CLUSTER_NAME } from '../../../config';
-
-type Events = {
-  GAME_STATE_CHANGE: {
-    game: Maybe<Game>;
-  };
-};
-
-const pubsub = new PubSub<Events>();
-
-let gameConfig: GameConfiguration = {
-  date: new Date().toJSON(),
-  cluster: CLUSTER_NAME,
-};
+import { Resolvers } from './generated.types';
+import { GameProvider } from './provider';
+import { PubSub } from '../../PubSub';
 
 const resolvers: Resolvers = {
   Query: {
-    gameConfig: async () => gameConfig,
+    gameConfig: async (_parent, _args, context) =>
+      context.injector.get(GameProvider).config,
   },
   Mutation: {
-    connect: async () => {
-      if (gameConfig.game == null) {
-        gameConfig = {
-          ...gameConfig,
-          game: {
-            id: nanoid(),
-            state: 'LOBBY',
-          },
-        };
-
-        pubsub.publish('GAME_STATE_CHANGE', { game: gameConfig.game ?? null });
-      }
-
-      return gameConfig;
-    },
+    connect: async (_parent, _args, context) =>
+      context.injector.get(GameProvider).connect(),
   },
   Subscription: {
     game: {
-      resolve: () => gameConfig.game ?? null,
-      subscribe: async () => pubsub.asyncIterableIterator('GAME_STATE_CHANGE'),
+      subscribe: async (_parent, _args, context) =>
+        context.injector.get(PubSub).asyncIterableIterator('GAME_STATE_CHANGE'),
     },
   },
 };
