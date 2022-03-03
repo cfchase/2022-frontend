@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="Put your description here.">
+  <base href="/">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/assets/style/summit-22-style.css">
+
+  <style>
+    section {
+      margin: 5rem;
+      max-width: 600px;
+      position: relative;
+    }
+    #footer e-footer {
+      position: relative;
+      padding-top: clamp(1em, 15vw, 10em);
+    }
+  </style>
+  <title>bike-factory</title>
+</head>
+
+<body>
+  <h1>Elements</h1>
+  <p>This page is a collection of stateless components (elements) that are used throughout the application.</p>
+
+  <section>
+    <h2>e-button</h2>
+    <e-button>Start</e-button>
+    <e-button disabled>...Saving</e-button>
+  </section>
+
+  <section>
+    <h2>e-page</h2>
+    <p>This element has slots: 'header', 'footer'</p>
+    <e-page>
+      <e-header title="Snazzy Mushroom" slot="header"></e-header>
+      <e-bike-assembly slot="middle"></e-bike-assembly>
+      <e-footer slot="footer" timer="55"></e-footer>
+    </e-page>
+  </section>
+
+  <section id="header">
+    <h2>e-header</h2>
+    <e-header title="Snazzy Mushroom"></e-header>
+  </section>
+
+  <section id="footer">
+    <h2>e-footer</h2>
+    <e-footer></e-footer>
+  </section>
+
+  <section id="bike-assembly">
+    <h2>e-bike-assembly</h2>
+    <e-bike-assembly></e-bike-assembly>
+  </section>
+
+  <section>
+    <h2>e-countdown</h2>
+    <e-countdown></e-countdown>
+  </section>
+
+  <section>
+    <h2>e-order</h2>
+    <e-order></e-order>
+  </section>
+
+  <section>
+    <h2>e-meter</h2>
+    <e-meter></e-meter>
+  </section>
+
+  <script type="module" src="/src/elements/e-page.ts"></script>
+  <script type="module" src="/src/elements/e-header.ts"></script>
+  <script type="module" src="/src/elements/e-footer.ts"></script>
+  <script type="module" src="/src/elements/e-bike-assembly.ts"></script>
+  <script type="module" src="/src/elements/e-button.ts"></script>
+  <script type="module" src="/src/elements/e-countdown.ts"></script>
+  <script type="module" src="/src/elements/e-order.ts"></script>
+  <script type="module" src="/src/elements/e-meter.ts"></script>
+</body>
+
+</html>

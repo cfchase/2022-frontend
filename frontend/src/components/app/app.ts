@@ -7,12 +7,14 @@ import {
   ApolloSubscriptionController,
 } from '@apollo-elements/core';
 
-import { GameConfigQuery } from './App.query.graphql.js';
-import { GameConfigUpdated } from './GameConfig.subscription.graphql.js';
-import { ConnectionRequestMutation } from './App.mutation.graphql.js';
+import { GameConfigQuery } from './App.query.graphql';
+import { GameConfigUpdated } from './GameConfig.subscription.graphql';
+import { ConnectionRequestMutation } from './App.mutation.graphql';
 
 import style from './app.css';
 import shared from '../shared.css';
+
+import '../../elements/index';
 
 export const getLocalStorage = () => {
   return {
@@ -38,7 +40,9 @@ export class ApolloApp extends LitElement {
   connectionRequestMutation = new ApolloMutationController(this, ConnectionRequestMutation);
   gameConfigSubscription = new ApolloSubscriptionController(this, GameConfigUpdated);
 
-  public async sendConnectionRequest() {
+  private _connectionRequestInterval: typeof setInterval;
+
+  public async sendConnectionRequest(): void {
     let storedGameConfig = {};
     // get a previously connected player
     const previousPlayer = getLocalStorage();
@@ -51,27 +55,35 @@ export class ApolloApp extends LitElement {
       // store new player and game info
       updateLocalStorage(data.connect.uuid, 'unknown playerID', 'unknown username');
       // update the gameconfigQuery
-      this.gameConfigQuery.refetch();
+      this.gameConfigQuery.executeQuery();
     } catch (error) {
-      console.error(error);
     }
+  }
+
+  firstUpdated(): void {
+    // Set up an interval to continuously try to check if the endpoint is up
+    this._connectionRequestInterval = setInterval(() => {
+      // if we don't have any game data then we need to get some
+      if (!this.gameConfigQuery.data?.gameConfig) {
+        this.sendConnectionRequest()
+      }
+      else {
+        clearInterval(this._connectionRequestInterval);
+      }
+    }, 5000);
   }
 
   render(): TemplateResult {
     return html`
-      <button @click="${this.sendConnectionRequest}">Connect</button>
-      <dl>
-        <dt>Pathname</dt>
-        <dd>${this.gameConfigQuery.data?.location?.pathname ?? '/'}</dd>
-        <dt>Game Config</dt>
-        <dd>${this.gameConfigQuery.data?.gameConfig?.uuid}</dd>
-        <dd>${this.gameConfigQuery.data?.gameConfig?.cluster}</dd>
-        <dd>${this.gameConfigQuery.data?.gameConfig?.state}</dd>
-        <dd>${this.gameConfigQuery.data?.gameConfig?.date}</dd>
-      </dl>
-
-      <h2>Last Config Update</h2>
-      <output>${this.gameConfigSubscription.data?.gameConfig?.uuid}</output>
+    	${!this.gameConfigQuery.data?.gameConfig ? html`
+        <h1 slot="middle">Connecting :)</h1>
+      `: html`
+        <e-page>
+          <e-header title="Snazzy Mushroom" slot="header"></e-header>
+          <e-bike-assembly slot="middle"></e-bike-assembly>
+          <e-footer slot="footer" timer="55"></e-footer>
+        </e-page>
+      `}
     `;
   }
 }

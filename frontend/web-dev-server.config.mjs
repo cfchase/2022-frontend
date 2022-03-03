@@ -11,9 +11,9 @@ const commonjs = fromRollup(_commonjs);
 const resolve = fromRollup(_resolve);
 
 export default {
-  nodeResolve: false,
+  nodeResolve: true,
   port: 8004,
-  appIndex: 'index.html',
+  // appIndex: 'index.html',
   rootDir: '.',
   mimeTypes: {
     'src/components/**/*.graphql': 'js',
@@ -21,25 +21,10 @@ export default {
     'src/style.css': 'css',
   },
   plugins: [
-    {
-      // needed to specifically use the browser bundle for subscriptions-transport-ws
-      name: 'use-browser-for-subscriptions-transport-ws',
-      transformImport({ source }) {
-        if (source.match(/subscriptions-transport-ws/))
-          return source.replace('/dist/index.js', '/dist/client.js');
-      },
-    },
-    commonjs({
-      include: ['**/node_modules/subscriptions-transport-ws/**/*.js'],
-      defaultIsModuleExports: true,
-    }),
-    resolve({
-      extensions: ['.mjs', '.js', '.json', '.node', '.ts']
-    }),
     esbuildPlugin({ ts: true }),
     resolveCodegenPlugin({ ts: true }),
     litcss({
-      include: 'src/components/**/*.css',
+      include: ['src/components/**/*.css'],
       exclude: ['src/style.css'],
     }),
   ],
