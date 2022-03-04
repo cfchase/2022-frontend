@@ -53,8 +53,8 @@ export class ApolloApp extends LitElement {
       const { data } =
         await this.connectionRequestMutation.mutate({ variables: storedGameConfig });
       // store new player and game info
-      updateLocalStorage(data.connect.uuid, 'unknown playerID', 'unknown username');
-      // update the gameconfigQuery
+      updateLocalStorage(data.connect.game.id, 'unknown playerID', 'unknown username');
+      // update the gameConfigQuery
       this.gameConfigQuery.executeQuery();
     } catch (error) {
     }

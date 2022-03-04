@@ -1,3 +1,5 @@
+directive @client on FIELD
+
 type Location {
   pathname: String
 }

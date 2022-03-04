@@ -2,7 +2,7 @@
 *.d.ts
 !src/typings/*/*.d.ts
 build/
-generated.types.ts
+generated.*.ts
 
 # Logs
 logs

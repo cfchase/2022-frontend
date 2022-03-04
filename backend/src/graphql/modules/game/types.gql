@@ -5,15 +5,19 @@ enum GameState {
   STOPPED
 }
 
-type GameConfiguration {
-  uuid: ID!
-  date: String!
+type Game {
+  id: ID!
   state: GameState!
+}
+
+type GameConfiguration {
+  date: String!
   cluster: String!
+  game: Game
 }
 
 type Query {
-  gameConfig: GameConfiguration
+  gameConfig: GameConfiguration!
 }
 
 input ConnectionRequest {
@@ -27,5 +31,5 @@ type Mutation {
 }
 
 type Subscription {
-  gameConfig: GameConfiguration
+  game: Game
 }

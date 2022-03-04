@@ -8,8 +8,12 @@
   "license": "ISC",
   "description": "Apollo Elements App",
   "scripts": {
-    "build": "../node_modules/.bin/rollup -c",
-    "dev": "../node_modules/.bin/wds --watch --open",
+    "build": "yarn run-s 'build:*'",
+    "build:codegen": "yarn graphql:codegen --project frontend",
+    "build:rollup": "yarn rollup -c",
+    "dev": "yarn run-p 'dev:*'",
+    "dev:codegen": "yarn build:codegen --watch",
+    "dev:start": "wds --watch --open",
     "lint": "eslint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,5 +24,24 @@
     "graphql-ws": "^5.6.0",
     "lit": "^2.2.0",
     "pwa-helpers": "^0.9.1"
+  },
+  "devDependencies": {
+    "@apollo-elements/create": "^3.0.3",
+    "@apollo-elements/rollup-plugin-graphql": "^1.0.3",
+    "@open-wc/rollup-plugin-html": "^1.x",
+    "@pwrs/eslint-config": "^0.x",
+    "@rollup/plugin-commonjs": "^17.x",
+    "@rollup/plugin-node-resolve": "^11.x",
+    "@types/node": "^16.0.0",
+    "@web/dev-server": "^0.1.x",
+    "@web/dev-server-esbuild": "^0.2.x",
+    "@web/dev-server-rollup": "^0.3.x",
+    "graphql": "^16.3.0",
+    "graphql-ws": "^5.6.0",
+    "npm-run-all": "^4.x",
+    "rollup": "^2.x",
+    "rollup-plugin-esbuild": "^2.x",
+    "rollup-plugin-lit-css": "^2.x",
+    "typescript": "^4.5.5"
   }
 }
