@@ -34,6 +34,7 @@ const graphqlConfig: IGraphQLConfig = {
             contextType: 'GraphQLModules.Context',
             optionalResolveType: true, // make `__resolveType` field optional
             useIndexSignature: true, // required for compatibility with apollo server
+            defaultMapper: 'Partial<{T}>',
           }),
           generates: ident({
             [graphqlModulesPath]: {

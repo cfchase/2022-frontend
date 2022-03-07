@@ -1,11 +1,11 @@
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { createModule } from 'graphql-modules';
-import { GameService } from './service';
+import { PlayerService } from './service';
 import resolvers from './resolvers';
 
 const graphqlModule = createModule({
-  id: 'game',
-  providers: [GameService],
+  id: 'player',
+  providers: [PlayerService],
   typeDefs: loadFilesSync(`${__dirname}/types.gql`),
   resolvers,
 });
