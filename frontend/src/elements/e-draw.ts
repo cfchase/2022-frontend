@@ -1,6 +1,8 @@
-import { css, html, LitElement, PropertyValues } from "lit";
+import { css, html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { query } from "lit/decorators/query.js";
 import { property } from "lit/decorators/property.js";
+import { state } from "lit/decorators/state.js";
+import "./e-countdown";
 import styles from "../global.css";
 
 /*
@@ -45,16 +47,19 @@ export class EDraw extends LitElement {
     }
   `];
 
-  @property({ type: Number }) private timer = timerLength;
-  @property({ type: Boolean }) private running = false;
-  @property({ type: Boolean }) private drawing = false;
-  @property({ type: Number }) public activeCanvasIndex = 0;
-  @property({ type: Array }) private canvases = [];
+  @property({ type: Number }) public activeCanvasIndex: number = 0;
   @property({ type: Object }) public activeCanvas: HTMLCanvasElement;
+
   @query("img") _img: HTMLImageElement;
   @query("#layer-1") _canvas1: HTMLCanvasElement;
   @query("#layer-2") _canvas2: HTMLCanvasElement;
   @query("#layer-3") _canvas3: HTMLCanvasElement;
+
+  @state() private timer: number = timerLength;
+  @state() private canvases: Array<HTMLCanvasElement> = [];
+  @state() private running: boolean = false;
+  @state() private drawing: boolean = false;
+  @state() private canvasHeight: number;
 
   constructor() {
     super();
@@ -62,12 +67,12 @@ export class EDraw extends LitElement {
     this._mouseHandler = this._mouseHandler.bind(this);
   }
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.canvases = [this._canvas1, this._canvas2, this._canvas3];
     this._init();
   }
 
-  updated(changed: PropertyValues<this>) {
+  updated(changed: PropertyValues<this>): void {
     if (changed.has("activeCanvasIndex")) {
       this.activeCanvas = this.canvases[this.activeCanvasIndex];
     }
@@ -78,8 +83,10 @@ export class EDraw extends LitElement {
     }
   }
 
-  render() {
+  render(): TemplateResult {
     return html`
+      <h2>Print your frame</h2>
+      <h3>Layer ${this.activeCanvasIndex + 1} of 3</h3>
       <div>
         <button @click="${this._startTimer}" ?disabled=${this.running}>Start timer</button>
         <button @click="${this._reset}">Reset</button>
@@ -87,24 +94,31 @@ export class EDraw extends LitElement {
       </div>
       <img>
       <div>${this.timer}</div>
-      <canvas id="layer-1"></canvas>
-      <canvas id="layer-2" hidden></canvas>
-      <canvas id="layer-3" hidden></canvas>
+      <div style="height: ${this.canvasHeight}px">
+        <canvas id="layer-1"></canvas>
+        <canvas id="layer-2" hidden></canvas>
+        <canvas id="layer-3" hidden></canvas>
+      </div>
+      <e-countdown start="30"></e-countdown>
     `;
   }
 
-  _init() {
+  _init(): void {
     this.activeCanvas = this.canvases[this.activeCanvasIndex];
-    this.canvases.forEach((canvas: HTMLCanvasElement) => {
+    this.canvases.forEach((canvas: HTMLCanvasElement, index: number) => {
       /*
        * attempting to create a 4/3 ratio for the canvas
        */
       canvas.width = window.innerWidth - 16;
       canvas.height = (window.innerWidth - 16) * 0.75;
+
+      if (index === 0) {
+        this.canvasHeight = canvas.height;
+      }
     });
   }
 
-  _addListeners() {
+  _addListeners(): void {
     this.canvases.forEach((canvas: HTMLCanvasElement) => {
       if ("ontouchstart" in document.documentElement) {
         canvas.addEventListener("touchstart", this._touchHandler);
@@ -119,7 +133,7 @@ export class EDraw extends LitElement {
     });
   }
 
-  _removeListeners() {
+  _removeListeners(): void {
     this.canvases.forEach((canvas: HTMLCanvasElement) => {      
       if ("ontouchstart" in document.documentElement) {
         canvas.removeEventListener("touchstart", this._touchHandler);
@@ -134,7 +148,7 @@ export class EDraw extends LitElement {
     });
   }
 
-  _startTimer() {
+  _startTimer(): void {
     this.running = true;
     this._addListeners();
 
@@ -152,7 +166,7 @@ export class EDraw extends LitElement {
     }, 1000);
   }
 
-  _reset() {
+  _reset(): void {
     this.canvases.forEach((canvas: HTMLCanvasElement) => {
       const context: CanvasRenderingContext2D = canvas.getContext("2d");
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -170,7 +184,7 @@ export class EDraw extends LitElement {
     this.running = false;
   }
 
-  _touchHandler(e: TouchEvent) {
+  _touchHandler(e: TouchEvent): void {
     e.preventDefault();
 
     switch(e.type) {
@@ -188,7 +202,7 @@ export class EDraw extends LitElement {
     }
   }
 
-  _mouseHandler(e: MouseEvent) {
+  _mouseHandler(e: MouseEvent): void {
     switch(e.type) {
       case "mousedown":
         this._draw("down", e.clientX, e.clientY);
@@ -208,7 +222,7 @@ export class EDraw extends LitElement {
     }
   }
 
-  _draw(action:string, left?: number, top?: number) {
+  _draw(action:string, left?: number, top?: number): void {
     if (!offset) {
       offset = this.activeCanvas.getBoundingClientRect();
     }
@@ -246,7 +260,7 @@ export class EDraw extends LitElement {
    * result of canvas 2 onto canvas 3 to get a full composite
    * image with all three layers combined.
    */
-  _generateImage() {
+  _generateImage(): void {
     this._canvas1.setAttribute("hidden", "");
     this._canvas2.setAttribute("hidden", "");
 
