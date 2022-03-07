@@ -5,7 +5,10 @@ import { svg, unsafeStatic } from 'lit/static-html.js';
 import styles from '../../assets/style/summit-22-style.css.ts';
 
 export type State =
+  | 'frame'
   | 'color'
+  | 'pedals'
+  | 'handles'
   | null
 
 export type Color =
@@ -31,6 +34,7 @@ export class EBikeAssembly extends LitElement {
   @property({ type: String }) public pedals:BikeType = null;
   @property({ type: String }) public handles:BikeType = null;
   @property({ type: String }) public seat:BikeType = null;
+  @property({ type: String }) public wheels:BikeType = null;
 
   private getFrameViewboxStart(): string {
     switch (this.frame) {
@@ -63,6 +67,8 @@ export class EBikeAssembly extends LitElement {
           ${this.pedals ? html`<div class="bikePedals bikePedals-${this.pedals} bikePedals-${this.pedals}--${this.frame}"></div>`:''}
           ${this.handles ? html`<div class="bikeHandles bikeHandles-${this.handles} bikeHandles-${this.handles}--${this.frame}"></div>`:''}
           ${this.seat ? html`<div class="bikeSeat bikeSeat-${this.seat} bikeSeat-${this.seat}--${this.frame}"></div>`:''}
+          ${this.wheels ? html`<div class="bikeWheels bikeWheels-${this.wheels} bikeWheels-${this.wheels}Rear--${this.frame}"></div>`:''}
+          ${this.wheels ? html`<div class="bikeWheels bikeWheels-${this.wheels} bikeWheels-${this.wheels}Front--${this.frame}"></div>`:''}
         `:''}
       </div>
       ${this.state === 'color' ? html`
@@ -112,6 +118,18 @@ export class EBikeAssembly extends LitElement {
           </ul>
         </div>
       ` : ''}
+      ${this.state === 'wheels' ? html`
+        <div class="bike-parts-wrapper">
+          <h2>Choose your wheels</h2>
+          <ul class="bikePart-carousel">
+            <li id="cardWheels-loRider"><a href=""><img src="assets/img/card-wheels/cardWheels-eBike.svg" alt="Wheels low rider bike"/></a></li>
+            <li id="cardWheels-Tri"><a href=""><img src="assets/img/card-wheels/cardWheels-Tri.svg" alt="Wheels Triathlon bike"/></a></li>
+            <li id="cardWheels-wagon"><a href=""><img src="assets/img/card-wheels/cardWheels-wagon.svg" alt="Wheels wagon bike"/></a></li>
+            <li id="cardWheels-eBike"><a href=""><img src="assets/img/card-wheels/cardWheels-loRider.svg" alt="Wheels eBike bike"/></a></li>
+            <li id="cardWheels-Road"><a href=""><img src="assets/img/card-wheels/cardWheels-Road.svg" alt="Wheels road bike"/></a></li>
+          </ul>
+        </div>
+      `:''}
     `;
   }
 }
