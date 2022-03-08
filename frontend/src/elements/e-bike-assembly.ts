@@ -2,29 +2,9 @@ import { css, html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { svg, unsafeStatic } from 'lit/static-html.js';
-import styles from '../../assets/style/summit-22-style.css.ts';
-
-export type State =
-  | 'frame'
-  | 'color'
-  | 'pedals'
-  | 'handles'
-  | null
-
-export type Color =
-  | 'Red'
-  | 'Orange'
-  | 'Navy'
-  | 'Blue'
-  | null
-
-export type BikeType =
-  | 'Road'
-  | 'loRider'
-  | 'wagon'
-  | 'Tri'
-  | 'eBike'
-  | null
+import styles from '../../assets/style/summit-22-style.css.js';
+import { bikeTypes, colors, states } from '../globals';
+import type { State, Color, BikeType } from '../globals';
 
 export class EBikeAssembly extends LitElement {
   static styles = [styles, css`
@@ -32,34 +12,45 @@ export class EBikeAssembly extends LitElement {
       z-index: 2;
       position: relative;
     }
+
+    a {
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    svg {
+      pointer-events: none;
+    }
   `];
 
-  @property({ type: String }) public state:State = null;
-  @property({ type: String }) public frame:BikeType = null;
-  @property({ type: String }) public pedals:BikeType = null;
-  @property({ type: String }) public handles:BikeType = null;
-  @property({ type: String }) public seat:BikeType = null;
-  @property({ type: String }) public wheels:BikeType = null;
+  @property({ type: String }) public state:State | null = null;
+  @property({ type: String }) public frame:BikeType | null = null;
+  @property({ type: String }) public pedals:BikeType | null = null;
+  @property({ type: String }) public handles:BikeType | null = null;
+  @property({ type: String }) public seat:BikeType | null = null;
+  @property({ type: String }) public wheels:BikeType | null = null;
+  @property({ type: Boolean, attribute: 'local-state' }) public localState:Boolean = true;
 
   private getFrameViewboxStart(): string {
     switch (this.frame) {
       case 'Tri':
-        return '0 0 360 360'
+        return '0 0 360 260'
         break;
       case 'Road':
-        return '360 0 360 360'
+        return '360 0 360 260'
         break;
       case 'loRider':
-        return '720 0 360 360'
+        return '720 0 360 260'
         break;
       case 'wagon':
-        return '1080 0 360 360'
+        return '1080 0 360 260'
         break;
       case 'eBike':
-        return '1440 0 360 360'
+        return '1440 0 360 260'
         break;
       default:
-        return '0 0 360 360';
+        return '0 0 360 260';
         break;
     }
   }
@@ -76,66 +67,80 @@ export class EBikeAssembly extends LitElement {
           ${this.wheels ? html`<div class="bikeWheels bikeWheels-${this.wheels} bikeWheels-${this.wheels}Front--${this.frame}"></div>`:''}
         `:''}
       </div>
-      ${this.state === 'color' ? html`
-        <div class="bike-parts-wrapper">
+      <div class="bike-parts-wrapper" @click=${this.selectOptionClickHandler}>
+        ${this.state === "color" ? html`
           <h2>Choose your color</h2>
           <ul class="bikePart-carousel">
-            <li id="cardColor-Tri"><a href=""><img src="assets/img/card-colors/card-Blue.svg" alt="Light blue color"/></a></li>
-            <li id="cardColor-eBike"><a href=""><img src="assets/img/card-colors/card-Red.svg" alt="Red color"/></a></li>
-            <li id="cardColor-wagon"><a href=""><img src="assets/img/card-colors/card-Orange.svg" alt="Orange color"/></a></li>
-            <li id="cardColor-loRider"><a href=""><img src="assets/img/card-colors/card-Navy.svg" alt="Navy blue color"/></a></li>
+            <li id="cardColor-Tri"><a href="" data-type="color" data-value="Blue"><img src="assets/img/card-colors/card-Blue.svg" alt="Light blue color"/></a></li>
+            <li id="cardColor-eBike"><a href="" data-type="color" data-value="Red"><img src="assets/img/card-colors/card-Red.svg" alt="Red color"/></a></li>
+            <li id="cardColor-wagon"><a href="" data-type="color" data-value="Orange"><img src="assets/img/card-colors/card-Orange.svg" alt="Orange color"/></a></li>
+            <li id="cardColor-loRider"><a href="" data-type="color" data-value="Navy"><img src="assets/img/card-colors/card-Navy.svg" alt="Navy blue color"/></a></li>
           </ul>
-        </div>
-      ` : ''}
-      ${this.state === 'pedals' ? html`
-        <div class="bike-parts-wrapper">
+        ` : ''}
+        ${this.state === "pedals" ? html`
           <h2>Choose your pedals</h2>
           <ul class="bikePart-carousel">
-            <li id="cardPedal-loRider"><a href=""><img src="assets/img/card-pedals/cardPedals-loRider.svg" alt="Pedals low rider bike"/></a></li>
-            <li id="cardPedals-Tri"><a href=""><img src="assets/img/card-pedals/cardPedals-Tri.svg" alt="Pedals Triathlon bike"/></a></li>
-            <li id="cardSeat-wagon"><a href=""><img src="assets/img/card-pedals/cardPedals-wagon.svg" alt="Pedals wagon bike"/></a></li>
-            <li id="cardPedal-eBike"><a href=""><img src="assets/img/card-pedals/cardPedals-eBike.svg" alt="Pedals eBike bike"/></a></li>
-            <li id="cardPedal-Road"><a href=""><img src="assets/img/card-pedals/cardPedals-Road.svg" alt="Pedals road bike"/></a></li>
+            <li id="cardPedal-loRider"><a href="" data-type="pedals" data-value="loRider"><img src="assets/img/card-pedals/cardPedals-loRider.svg" alt="Pedals low rider bike"/></a></li>
+            <li id="cardPedals-Tri"><a href="" data-type="pedals" data-value="Tri"><img src="assets/img/card-pedals/cardPedals-Tri.svg" alt="Pedals Triathlon bike"/></a></li>
+            <li id="cardSeat-wagon"><a href="" data-type="pedals" data-value="wagon"><img src="assets/img/card-pedals/cardPedals-wagon.svg" alt="Pedals wagon bike"/></a></li>
+            <li id="cardPedal-eBike"><a href="" data-type="pedals" data-value="eBike"><img src="assets/img/card-pedals/cardPedals-eBike.svg" alt="Pedals eBike bike"/></a></li>
+            <li id="cardPedal-Road"><a href="" data-type="pedals" data-value="Road"><img src="assets/img/card-pedals/cardPedals-Road.svg" alt="Pedals road bike"/></a></li>
           </ul>
-        </div>
-      ` : ''}
-      ${this.state === 'handles' ? html`
-        <div class="bike-parts-wrapper">
+        ` : ''}
+        ${this.state === "handles" ? html`
           <h2>Choose your handles</h2>
           <ul class="bikePart-carousel">
-            <li id="cardHandles-loRider"><a href=""><img src="assets/img/card-handles/cardHandles-loRider.svg" alt="Handles low rider bike"/></a></li>
-            <li id="cardHandles-Tri"><a href=""><img src="assets/img/card-handles/cardHandles-Tri.svg" alt="Handles Triathlon bike"/></a></li>
-            <li id="cardHandles-wagon"><a href=""><img src="assets/img/card-handles/cardHandles-wagon.svg" alt="Handles wagon bike"/></a></li>
-            <li id="cardHandles-eBike"><a href=""><img src="assets/img/card-handles/cardHandles-eBike.svg" alt="Handles eBike bike"/></a></li>
-            <li id="cardHandles-Road"><a href=""><img src="assets/img/card-handles/cardHandles-Road.svg" alt="Handles road bike"/></a></li>
+            <li id="cardHandles-loRider"><a href="" data-type="handles" data-value="loRider"><img src="assets/img/card-handles/cardHandles-loRider.svg" alt="Handles low rider bike"/></a></li>
+            <li id="cardHandles-Tri"><a href="" data-type="handles" data-value="Tri"><img src="assets/img/card-handles/cardHandles-Tri.svg" alt="Handles Triathlon bike"/></a></li>
+            <li id="cardHandles-wagon"><a href="" data-type="handles" data-value="wagon"><img src="assets/img/card-handles/cardHandles-wagon.svg" alt="Handles wagon bike"/></a></li>
+            <li id="cardHandles-eBike"><a href="" data-type="handles" data-value="eBike"><img src="assets/img/card-handles/cardHandles-eBike.svg" alt="Handles eBike bike"/></a></li>
+            <li id="cardHandles-Road"><a href="" data-type="handles" data-value="Road"><img src="assets/img/card-handles/cardHandles-Road.svg" alt="Handles road bike"/></a></li>
           </ul>
-        </div>
-      ` : ''}
-      ${this.state === 'seat' ? html`
-        <div class="bike-parts-wrapper">
+        ` : ''}
+        ${this.state === "seat" ? html`
           <h2>Choose your Seat</h2>
           <ul class="bikePart-carousel">
-              <li id="cardSeat-loRider"><a href=""><img src="assets/img/card-seats/cardSeat-loRider.svg" alt="Seat low rider bike"/></a></li>
-              <li id="cardSeat-Tri"><a href=""><img src="assets/img/card-seats/cardSeat-Tri.svg" alt="Seat Triathlon bike"/></a></li>
-              <li id="cardSeat-wagon"><a href=""><img src="assets/img/card-seats/cardSeat-wagon.svg" alt="Seat wagon bike"/></a></li>
-              <li id="cardSeat-eBike"><a href=""><img src="assets/img/card-seats/cardSeat-eBike.svg" alt="Seat eBike bike"/></a></li>
-              <li id="cardSeat-Road"><a href=""><img src="assets/img/card-seats/cardSeat-Road.svg" alt="Seat road bike"/></a></li>
+              <li id="cardSeat-loRider"><a href="" data-type="seat" data-value="loRider"><img src="assets/img/card-seats/cardSeat-loRider.svg" alt="Seat low rider bike"/></a></li>
+              <li id="cardSeat-Tri"><a href="" data-type="seat" data-value="Tri"><img src="assets/img/card-seats/cardSeat-Tri.svg" alt="Seat Triathlon bike"/></a></li>
+              <li id="cardSeat-wagon"><a href="" data-type="seat" data-value="wagon"><img src="assets/img/card-seats/cardSeat-wagon.svg" alt="Seat wagon bike"/></a></li>
+              <li id="cardSeat-eBike"><a href="" data-type="seat" data-value="eBike"><img src="assets/img/card-seats/cardSeat-eBike.svg" alt="Seat eBike bike"/></a></li>
+              <li id="cardSeat-Road"><a href="" data-type="seat" data-value="Road"><img src="assets/img/card-seats/cardSeat-Road.svg" alt="Seat road bike"/></a></li>
           </ul>
-        </div>
-      ` : ''}
-      ${this.state === 'wheels' ? html`
-        <div class="bike-parts-wrapper">
+        ` : ''}
+        ${this.state === "wheels" ? html`
           <h2>Choose your wheels</h2>
           <ul class="bikePart-carousel">
-            <li id="cardWheels-loRider"><a href=""><img src="assets/img/card-wheels/cardWheels-eBike.svg" alt="Wheels low rider bike"/></a></li>
-            <li id="cardWheels-Tri"><a href=""><img src="assets/img/card-wheels/cardWheels-Tri.svg" alt="Wheels Triathlon bike"/></a></li>
-            <li id="cardWheels-wagon"><a href=""><img src="assets/img/card-wheels/cardWheels-wagon.svg" alt="Wheels wagon bike"/></a></li>
-            <li id="cardWheels-eBike"><a href=""><img src="assets/img/card-wheels/cardWheels-loRider.svg" alt="Wheels eBike bike"/></a></li>
-            <li id="cardWheels-Road"><a href=""><img src="assets/img/card-wheels/cardWheels-Road.svg" alt="Wheels road bike"/></a></li>
+            <li id="cardWheels-loRider"><a href="" data-type="wheels" data-value="loRider"><img src="assets/img/card-wheels/cardWheels-eBike.svg" alt="Wheels low rider bike"/></a></li>
+            <li id="cardWheels-Tri"><a href="" data-type="wheels" data-value="Tri"><img src="assets/img/card-wheels/cardWheels-Tri.svg" alt="Wheels Triathlon bike"/></a></li>
+            <li id="cardWheels-wagon"><a href="" data-type="wheels" data-value="wagon"><img src="assets/img/card-wheels/cardWheels-wagon.svg" alt="Wheels wagon bike"/></a></li>
+            <li id="cardWheels-eBike"><a href="" data-type="wheels" data-value="eBike"><img src="assets/img/card-wheels/cardWheels-loRider.svg" alt="Wheels eBike bike"/></a></li>
+            <li id="cardWheels-Road"><a href="" data-type="wheels" data-value="Road"><img src="assets/img/card-wheels/cardWheels-Road.svg" alt="Wheels road bike"/></a></li>
           </ul>
-        </div>
-      `:''}
+        `:''}
+      </div>
     `;
+  }
+
+  private selectOptionClickHandler(e: MouseEvent | KeyboardEvent) {
+    e.preventDefault();
+
+    const target = e.target.closest('a');
+    const type = target?.dataset?.type;
+    const value = target?.dataset?.value;
+
+    console.log(type, value)
+
+    this.dispatchEvent(new Event('assembly-option', {
+      bubbles: true,
+      composed: true,
+      type,
+      value
+    }))
+
+    // quickly update local state
+    if (this.localState) {
+      this[type] = value;
+    }
   }
 }
 

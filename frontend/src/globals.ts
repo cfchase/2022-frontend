@@ -1,6 +1,36 @@
 import { css } from 'lit';
 import type { CSSResult } from 'lit';
 
+export const states = [
+  'frame',
+  'color',
+  'pedals',
+  'seat',
+  'handles',
+  'wheels',
+] as const;
+
+export const colors = [
+  'Red',
+  'Orange',
+  'Navy',
+  'Blue',
+] as const;
+
+export const bikeTypes = [
+  'Road',
+  'loRider',
+  'wagon',
+  'Tri',
+  'eBike',
+] as const;
+
+export type State = typeof states[number];
+
+export type Color = typeof colors[number];
+
+export type BikeType = typeof bikeTypes[number];
+
 export type VariableName =
   | 'color'
 	| 'navHeight'
