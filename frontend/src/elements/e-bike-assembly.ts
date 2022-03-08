@@ -30,7 +30,7 @@ export class EBikeAssembly extends LitElement {
   @property({ type: String }) public handles:BikeType | null = null;
   @property({ type: String }) public seat:BikeType | null = null;
   @property({ type: String }) public wheels:BikeType | null = null;
-  @property({ type: Boolean, attribute: 'local-state' }) public localState:Boolean = true;
+  @property({ type: Boolean }) public dev:Boolean = false;
 
   private getFrameViewboxStart(): string {
     switch (this.frame) {
@@ -128,8 +128,6 @@ export class EBikeAssembly extends LitElement {
     const type = target?.dataset?.type;
     const value = target?.dataset?.value;
 
-    console.log(type, value)
-
     this.dispatchEvent(new Event('assembly-option', {
       bubbles: true,
       composed: true,
@@ -138,7 +136,7 @@ export class EBikeAssembly extends LitElement {
     }))
 
     // quickly update local state
-    if (this.localState) {
+    if (this.dev) {
       this[type] = value;
     }
   }
