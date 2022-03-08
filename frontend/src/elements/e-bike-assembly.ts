@@ -27,7 +27,12 @@ export type BikeType =
   | null
 
 export class EBikeAssembly extends LitElement {
-  static styles = [styles, css``];
+  static styles = [styles, css`
+    #bikeFrames {
+      z-index: 2;
+      position: relative;
+    }
+  `];
 
   @property({ type: String }) public state:State = null;
   @property({ type: String }) public frame:BikeType = null;
