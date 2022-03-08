@@ -1,8 +1,9 @@
 import { css, html, LitElement, PropertyValues, TemplateResult } from "lit";
+import { customElement } from "lit/decorators/custom-element.js";
 import { query } from "lit/decorators/query.js";
 import { property } from "lit/decorators/property.js";
 import { state } from "lit/decorators/state.js";
-import "./e-countdown";
+import { ECountdown } from "./e-countdown";"./e-countdown";
 import styles from "../global.css";
 
 /*
@@ -26,6 +27,7 @@ import styles from "../global.css";
  */
 
 const timerLength: number = 30;
+const maxIterations: number = 3;
 let interval: number;
 let ctx: CanvasRenderingContext2D;
 let prevX: number = 0;
@@ -34,6 +36,7 @@ let currX: number = 0;
 let currY: number = 0;
 let offset: DOMRect;
 
+@customElement("e-draw")
 export class EDraw extends LitElement {
   static styles = [styles, css`
 		:host {
@@ -54,25 +57,31 @@ export class EDraw extends LitElement {
   @query("#layer-1") _canvas1: HTMLCanvasElement;
   @query("#layer-2") _canvas2: HTMLCanvasElement;
   @query("#layer-3") _canvas3: HTMLCanvasElement;
+  @query("#countdown") _timer: ECountdown;
 
-  @state() private timer: number = timerLength;
   @state() private canvases: Array<HTMLCanvasElement> = [];
   @state() private running: boolean = false;
   @state() private drawing: boolean = false;
   @state() private canvasHeight: number;
+  @state() private iterations: number = 0;
 
   constructor() {
     super();
     this._touchHandler = this._touchHandler.bind(this);
     this._mouseHandler = this._mouseHandler.bind(this);
+    this.addEventListener("timerComplete", this._timerCompleteHandler);
   }
 
-  firstUpdated(): void {
+  disconnectedCallback(): void {
+    this.removeEventListener("timerComplete", this._timerCompleteHandler);
+  }
+
+  protected firstUpdated(): void {
     this.canvases = [this._canvas1, this._canvas2, this._canvas3];
     this._init();
   }
 
-  updated(changed: PropertyValues<this>): void {
+  protected updated(changed: PropertyValues<this>): void {
     if (changed.has("activeCanvasIndex")) {
       this.activeCanvas = this.canvases[this.activeCanvasIndex];
     }
@@ -93,13 +102,12 @@ export class EDraw extends LitElement {
         <button @click="${this._generateImage}">Generate image</button>
       </div>
       <img>
-      <div>${this.timer}</div>
       <div style="height: ${this.canvasHeight}px">
         <canvas id="layer-1"></canvas>
         <canvas id="layer-2" hidden></canvas>
         <canvas id="layer-3" hidden></canvas>
       </div>
-      <e-countdown start="30"></e-countdown>
+      <e-countdown id="countdown" totalseconds="10"></e-countdown>
     `;
   }
 
@@ -151,19 +159,7 @@ export class EDraw extends LitElement {
   _startTimer(): void {
     this.running = true;
     this._addListeners();
-
-    interval = window.setInterval(() => {
-      this.timer--;
-
-      if (this.timer % (timerLength / this.canvases.length) === 0 && this.timer > 0) {
-        this.activeCanvasIndex++;
-      }
-
-      if (this.timer === 0) {
-        window.clearInterval(interval);
-        this._removeListeners();
-      }
-    }, 1000);
+    this._timer.start();
   }
 
   _reset(): void {
@@ -173,14 +169,15 @@ export class EDraw extends LitElement {
     });
 
     window.clearInterval(interval);
+    this._timer.reset();
 
     this.activeCanvas = this._canvas1;
-    this.timer = timerLength;
     this._canvas1.removeAttribute("hidden");
     this._canvas2.setAttribute("hidden", "");
     this._canvas3.setAttribute("hidden", "");
     this._img.src = "";
     this.activeCanvasIndex = 0;
+    this.iterations = 0;
     this.running = false;
   }
 
@@ -255,6 +252,19 @@ export class EDraw extends LitElement {
     }
   }
 
+  _timerCompleteHandler(): void {
+    this.iterations++;
+
+    if (this.iterations < maxIterations) {
+      this._timer.reset();
+      this._timer.start();
+      this.activeCanvasIndex++;
+    } else {
+      this._timer.stop();
+      this._removeListeners();
+    }
+  }
+
   /*
    * Draw the contents of canvas 1 onto canvas 2. Then draw the
    * result of canvas 2 onto canvas 3 to get a full composite
@@ -273,5 +283,3 @@ export class EDraw extends LitElement {
     this._img.src = dataURL;
   }
 }
-
-customElements.define("e-draw", EDraw);
