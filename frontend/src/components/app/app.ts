@@ -15,6 +15,9 @@ import style from './app.css';
 import shared from '../shared.css';
 
 import '../../elements/index';
+import '../../pages/p-splash';
+import '../../pages/p-gameover';
+import '../../pages/p-test';
 
 export const getLocalStorage = () => {
   return {
@@ -78,11 +81,14 @@ export class ApolloApp extends LitElement {
     	${!this.gameConfigQuery.data?.gameConfig ? html`
         <h1 slot="middle">Connecting :)</h1>
       `: html`
-        <e-page>
+        <!--<e-page>
           <e-header title="Snazzy Mushroom" slot="header"></e-header>
           <e-bike-assembly slot="middle"></e-bike-assembly>
           <e-footer slot="footer" timer="55"></e-footer>
-        </e-page>
+        </e-page>-->
+        <!--<p-splash></p-splash>-->
+        <!--<p-gameover></p-gameover>-->
+        <p-test></p-test>
       `}
     `;
   }
