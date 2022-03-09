@@ -1,20 +1,26 @@
-import { Resolvers } from './generated.types';
-import { GameProvider } from './provider';
+import type { EventPayload } from 'graphql-subscriptions';
+import type { Resolvers } from './generated.types';
+import { GameService } from './service';
+import type { Events } from './types';
+import type { RequireFields, SubscriptionGameArgs } from '../generated.schema';
 import { PubSub } from '../../PubSub';
 
 const resolvers: Resolvers = {
   Query: {
-    gameConfig: async (_parent, _args, context) =>
-      context.injector.get(GameProvider).config,
-  },
-  Mutation: {
-    connect: async (_parent, _args, context) =>
-      context.injector.get(GameProvider).connect(),
+    games: async (_, { filter }, context) =>
+      context.injector.get(GameService).getGames(filter ?? {}),
   },
   Subscription: {
     game: {
-      subscribe: async (_parent, _args, context) =>
-        context.injector.get(PubSub).asyncIterableIterator('GAME_STATE_CHANGE'),
+      resolve: async (
+        _: EventPayload<Events>,
+        { id }: RequireFields<SubscriptionGameArgs, 'id'>,
+        context: GraphQLModules.Context
+      ) => context.injector.get(GameService).getGameById(id),
+      subscribe: async (_, _args, context) =>
+        context.injector
+          .get(PubSub)
+          .asyncIterableIterator(['NEW_GAME_CREATED', 'PLAYER_CONNECTED']),
     },
   },
 };

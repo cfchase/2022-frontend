@@ -1,9 +1,5 @@
-query GameQuery {
-  location @client {
-    pathname
-  }
-
-  games {
+subscription GameUpdated($gameId: ID!) {
+  game(id: $gameId) {
     id
     state
     players {

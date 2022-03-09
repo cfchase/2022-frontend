@@ -1,3 +1,21 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 5d64e13aaf06be715f638ba711968219bd673f3e..f1b65cca4c3b5a4d9a73c1c36e52fb21227b899d 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -1,3 +1,3 @@
+-export { PubSubEngine } from './pubsub-engine';
++export { EventName, EventNames, EventPayload, PubSubEngine } from './pubsub-engine';
+ export { PubSub, PubSubOptions } from './pubsub';
+ export { withFilter, ResolverFn, FilterFn } from './with-filter';
+diff --git a/dist/index.js.map b/dist/index.js.map
+index 9478457d75358af75853d03efbb9e89c723abaa0..cc004ec6ce8c260f77186474341b5c6e0e851d33 100644
+--- a/dist/index.js.map
++++ b/dist/index.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/index.ts"],"names":[],"mappings":";;;AAAA,iDAA+C;AAAtC,6GAAA,YAAY,OAAA;AACrB,mCAAiD;AAAxC,gGAAA,MAAM,OAAA;AACf,6CAAiE;AAAxD,yGAAA,UAAU,OAAA"}
+\ No newline at end of file
++{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/index.ts"],"names":[],"mappings":";;;AAAA,iDAAoF;AAAtC,6GAAA,YAAY,OAAA;AAC1D,mCAAiD;AAAxC,gGAAA,MAAM,OAAA;AACf,6CAAiE;AAAxD,yGAAA,UAAU,OAAA"}
+\ No newline at end of file
 diff --git a/dist/pubsub-async-iterable-iterator.d.ts b/dist/pubsub-async-iterable-iterator.d.ts
 new file mode 100644
 index 0000000000000000000000000000000000000000..77a7a505872138241e5492940de94eb001f24523

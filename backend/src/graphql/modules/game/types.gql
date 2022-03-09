@@ -10,26 +10,14 @@ type Game {
   state: GameState!
 }
 
-type GameConfiguration {
-  date: String!
-  cluster: String!
-  game: Game
+input GameFilter {
+  state: GameState
 }
 
 type Query {
-  gameConfig: GameConfiguration!
-}
-
-input ConnectionRequest {
-  username: String
-  gameId: String
-  playerId: String
-}
-
-type Mutation {
-  connect(request: ConnectionRequest): GameConfiguration!
+  games(filter: GameFilter): [Game!]!
 }
 
 type Subscription {
-  game: Game
+  game(id: ID!): Game
 }

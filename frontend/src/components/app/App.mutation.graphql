@@ -1,10 +1,14 @@
 mutation ConnectionRequestMutation($connectionRequest: ConnectionRequest) {
-  connect(request: $connectionRequest) {
-    date
-    cluster
+  connectPlayer(request: $connectionRequest) {
+    id
+    username
     game {
       id
       state
+      players {
+        id
+        username
+      }
     }
   }
 }
