@@ -118,8 +118,8 @@ export class ApolloApp extends LitElement {
 
   render(): TemplateResult {
     return html`
-      ${!this._game
-        ? html` <h1 slot="middle">Connecting :)</h1> `
+      ${!this._game ?
+        html` <h1 slot="middle">Connecting :)</h1> `
         : html`
             <e-page>
               <e-header title="Snazzy Mushroom" slot="header"></e-header>
