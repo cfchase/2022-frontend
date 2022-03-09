@@ -21,6 +21,7 @@
     "@apollo-elements/components": "^2.0.0",
     "@apollo-elements/core": "^1.0.0",
     "@apollo/client": "^3.5.4",
+    "@web/rollup-plugin-html": "^1.10.1",
     "graphql-ws": "^5.6.0",
     "lit": "^2.2.0",
     "pwa-helpers": "^0.9.1"
@@ -28,7 +29,6 @@
   "devDependencies": {
     "@apollo-elements/create": "^3.0.3",
     "@apollo-elements/rollup-plugin-graphql": "^1.0.3",
-    "@open-wc/rollup-plugin-html": "^1.x",
     "@pwrs/eslint-config": "^0.x",
     "@rollup/plugin-commonjs": "^17.x",
     "@rollup/plugin-node-resolve": "^11.x",
