@@ -11,6 +11,8 @@ const resolvers: Resolvers = {
   Mutation: {
     connectPlayer: async (_, { request }, context) =>
       context.injector.get(PlayerService).connectPlayer(request ?? {}),
+    setCurrentOrder: async (_, { orderId, playerId }, context) =>
+      context.injector.get(PlayerService).setCurrentOrder(playerId, orderId),
   },
   Game: {
     players: async (gameData, _args, context) =>

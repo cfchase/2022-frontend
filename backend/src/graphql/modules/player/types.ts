@@ -8,6 +8,9 @@ export type Events = {
   PLAYER_CONNECTED: {
     player: PlayerData;
   };
+  PLAYER_UPDATED: {
+    player: PlayerData;
+  };
 };
 
 export type PlayerData = Omit<Player, 'game'> & {

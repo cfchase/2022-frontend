@@ -25,6 +25,6 @@ extend type Player {
   orders: [Order!]!
 }
 
-type Mutation {
-  addOrderToQueue(playerId: String!): Order!
+extend type Mutation {
+  addOrderToQueue(playerId: ID!): Order!
 }

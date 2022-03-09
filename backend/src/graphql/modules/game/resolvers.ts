@@ -20,7 +20,11 @@ const resolvers: Resolvers = {
       subscribe: async (_, _args, context) =>
         context.injector
           .get(PubSub)
-          .asyncIterableIterator(['NEW_GAME_CREATED', 'PLAYER_CONNECTED']),
+          .asyncIterableIterator([
+            'NEW_GAME_CREATED',
+            'PLAYER_CONNECTED',
+            'PLAYER_UPDATED',
+          ]),
     },
   },
 };
