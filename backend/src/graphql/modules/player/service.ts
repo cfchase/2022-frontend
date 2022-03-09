@@ -2,13 +2,13 @@ import assert from 'assert';
 import { filter, first } from 'lodash/fp';
 import { Injectable } from 'graphql-modules';
 import { nanoid } from 'nanoid';
-import type { ConnectionRequest, Game, Player } from './generated.types';
+import type { ConnectionRequest, Player } from './generated.types';
 import type { PlayerData } from './types';
 import generateUserName from './username.generator';
-import type { Maybe } from '../generated.schema';
-import { PubSub } from '../../PubSub';
 import { GameService } from '../game/service';
 import { GameData } from '../game/types';
+import type { Game, Maybe } from '../generated.schema';
+import { PubSub } from '../../PubSub';
 
 @Injectable({ global: true })
 export class PlayerService {
