@@ -6002,7 +6002,7 @@ __metadata:
     npm-run-all: ^4.x
     pwa-helpers: ^0.9.1
     rollup: ^2.x
-    rollup-plugin-esbuild: ^2.x
+    rollup-plugin-esbuild: ^3.x
     rollup-plugin-lit-css: ^2.x
     typescript: ^4.5.5
   languageName: unknown
@@ -7638,6 +7638,13 @@ __metadata:
   version: 2.2.5
   resolution: "joycon@npm:2.2.5"
   checksum: 930bb748c0ade3b70cca756aa559916a3e0df36b06b0ace629d9c4a6081d235d3d7a93eb7d3094d53ab7a3658bcd5c6a54e4ed235e5f5c03a177597a669081eb
+  languageName: node
+  linkType: hard
+
+"joycon@npm:^3.0.1":
+  version: 3.1.1
+  resolution: "joycon@npm:3.1.1"
+  checksum: 8003c9c3fc79c5c7602b1c7e9f7a2df2e9916f046b0dbad862aa589be78c15734d11beb9fe846f5e06138df22cb2ad29961b6a986ba81c4920ce2b15a7f11067
   languageName: node
   linkType: hard
 
@@ -10159,16 +10166,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-esbuild@npm:^2.x":
-  version: 2.6.1
-  resolution: "rollup-plugin-esbuild@npm:2.6.1"
+"rollup-plugin-esbuild@npm:^3.x":
+  version: 3.0.4
+  resolution: "rollup-plugin-esbuild@npm:3.0.4"
   dependencies:
     "@rollup/pluginutils": ^4.1.0
-    joycon: ^2.2.5
-    strip-json-comments: ^3.1.1
+    joycon: ^3.0.1
+    jsonc-parser: ^3.0.0
   peerDependencies:
-    esbuild: ">=0.7.0"
-  checksum: bd8675d6494ff38ae36d6401afd4a0e69198d9e64e4f48ca090c340352ef4ee444eec38080b3b9f4a47c73f10386f5ac571660ad20fe8400824df2dc18eac171
+    esbuild: ">=0.9.0"
+    rollup: ^1.20.0 || ^2.0.0
+  checksum: d1fca713fe5b88996ea6c3e24b5059825ae81c8faadd3205c04d1b4fccabe2311be8dfe92314cc994b59d96f5d375e5dde7ff46936723ab64724b0a408830981
   languageName: node
   linkType: hard
 
