@@ -11,13 +11,19 @@
 
   <style>
     section {
-      margin: 5rem;
+      margin: 5rem 0;
       max-width: 600px;
       position: relative;
     }
     #footer e-footer {
       position: relative;
       padding-top: clamp(1em, 15vw, 10em);
+    }
+
+    @media (min-width: 560px) {
+      section {
+        margin: 5rem;
+      }
     }
   </style>
   <title>bike-factory</title>
@@ -83,6 +89,11 @@
     <e-meter></e-meter>
   </section>
 
+  <section style="margin-left: 0; margin-right: 0;">
+    <h2>e-draw</h2>
+    <e-draw></e-draw>
+  </section>
+
   <script type="module" src="/src/elements/e-page.ts"></script>
   <script type="module" src="/src/elements/e-header.ts"></script>
   <script type="module" src="/src/elements/e-footer.ts"></script>
@@ -91,6 +102,7 @@
   <script type="module" src="/src/elements/e-countdown.ts"></script>
   <script type="module" src="/src/elements/e-order.ts"></script>
   <script type="module" src="/src/elements/e-meter.ts"></script>
+  <script type="module" src="/src/elements/e-draw.ts"></script>
 </body>
 
 </html>

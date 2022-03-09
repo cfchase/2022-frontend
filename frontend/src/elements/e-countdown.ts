@@ -8,13 +8,13 @@ export class ECountdown extends LitElement {
   static readonly styles = [styles];
 
   @property()
-	start: number = 60;
+	totalSeconds: number = 60;
 
   @property({ type: Boolean, reflect: true })
 	complete = false;
 
 	@state()
-	timer: number = this.start;
+	timer: number = 0;
 
 	private _countdown: any;
 
@@ -27,19 +27,50 @@ export class ECountdown extends LitElement {
 	protected updated(_changedProperties: Map<string | number | symbol, unknown>): void {
 	  if (_changedProperties.has('timer')) {
 			this.complete = this.timer === 0;
+
+			if (this.complete) {
+				const event: Event = new Event("timerComplete", {
+					bubbles: true,
+					composed: true
+				});
+				this.dispatchEvent(event);
+			}
 		}
 	}
 
 	protected firstUpdated(): void {
-		this._countdown = setInterval(this.updateTimer.bind(this), 1000);
+		this.timer = this.totalSeconds;
 	}
 
 	disconnectedCallback(): void {
-		clearInterval(this._countdown);
+		this.stop();
 	}
 
 	private updateTimer(): void {
 		if (this.timer > 0)
 			this.timer--;
+			const event: CustomEvent = new CustomEvent("timerUpdate", {
+				bubbles: true,
+				composed: true,
+				detail: {
+					timer: this.timer
+				}
+			});
+
+			this.dispatchEvent(event);
+
+	}
+
+	start(): void {
+		this._countdown = setInterval(this.updateTimer.bind(this), 1000);
+	}
+
+	stop(): void {
+		clearInterval(this._countdown);
+	}
+
+	reset(): void {
+		this.stop();
+		this.timer = this.totalSeconds;
 	}
 }
