@@ -11,13 +11,19 @@
 
   <style>
     section {
-      margin: 5rem;
+      margin: 5rem 0;
       max-width: 600px;
       position: relative;
     }
     #footer e-footer {
       position: relative;
       padding-top: clamp(1em, 15vw, 10em);
+    }
+
+    @media (min-width: 560px) {
+      section {
+        margin: 5rem;
+      }
     }
   </style>
   <title>bike-factory</title>
@@ -54,8 +60,18 @@
   </section>
 
   <section id="bike-assembly">
-    <h2>e-bike-assembly</h2>
-    <e-bike-assembly></e-bike-assembly>
+    <h2>e-bike-assembly frame</h2>
+    <e-bike-assembly state="frame" dev></e-bike-assembly>
+    <h2>e-bike-assembly color</h2>
+    <e-bike-assembly state="color" frame="Tri" dev></e-bike-assembly>
+    <h2>e-bike-assembly pedals</h2>
+    <e-bike-assembly state="pedals" frame="Tri" pedals="wagon" dev></e-bike-assembly>
+    <h2>e-bike-assembly handles</h2>
+    <e-bike-assembly state="handles" frame="Tri" pedals="wagon" handles="loRider" dev></e-bike-assembly>
+    <h2>e-bike-assembly seat</h2>
+    <e-bike-assembly state="seat" frame="Tri" pedals="wagon" handles="loRider" seat="loRider" dev></e-bike-assembly>
+    <h2>e-bike-assembly wheels</h2>
+    <e-bike-assembly state="wheels" frame="Tri" pedals="wagon" handles="loRider" seat="loRider" wheels="loRider" dev></e-bike-assembly>
   </section>
 
   <section>
@@ -73,6 +89,11 @@
     <e-meter></e-meter>
   </section>
 
+  <section style="margin-left: 0; margin-right: 0;">
+    <h2>e-draw</h2>
+    <e-draw></e-draw>
+  </section>
+
   <script type="module" src="/src/elements/e-page.ts"></script>
   <script type="module" src="/src/elements/e-header.ts"></script>
   <script type="module" src="/src/elements/e-footer.ts"></script>
@@ -81,6 +102,7 @@
   <script type="module" src="/src/elements/e-countdown.ts"></script>
   <script type="module" src="/src/elements/e-order.ts"></script>
   <script type="module" src="/src/elements/e-meter.ts"></script>
+  <script type="module" src="/src/elements/e-draw.ts"></script>
 </body>
 
 </html>

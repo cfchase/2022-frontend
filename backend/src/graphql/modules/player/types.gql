@@ -1,0 +1,28 @@
+type Player {
+  id: ID!
+  username: String!
+  game: Game!
+}
+
+extend type Game {
+  players: [Player!]!
+}
+
+extend type Query {
+  player(id: ID!): Player
+}
+
+input ConnectionRequest {
+  gameId: ID
+  playerId: ID
+  username: String
+}
+
+type Mutation {
+  connectPlayer(request: ConnectionRequest): Player!
+  setCurrentOrder(playerId: ID!, orderId: ID!): Player!
+}
+
+type Subscription {
+  player(id: ID!): Player
+}
