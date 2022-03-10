@@ -1,0 +1,30 @@
+enum OrderStatus {
+  IN_QUEUE
+  PRINTING_FRAME_1
+  PRINTING_FRAME_2
+  PRINTING_FRAME_3
+  SELECTING_SEAT
+  SELECTING_WHEELS
+  SELECTING_HANDLES
+  SELECTING_COLOR
+  COMPLETED
+}
+
+type Order {
+  id: ID!
+  status: OrderStatus!
+  points: Float!
+  timer: Float
+  targetImage: String
+  resultImage: String
+  frameImage: String
+}
+
+extend type Player {
+  currentOrder: Order
+  orders: [Order!]!
+}
+
+extend type Mutation {
+  addOrderToQueue(playerId: ID!): Order!
+}
