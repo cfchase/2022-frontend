@@ -7,11 +7,11 @@ export class EPage extends LitElement {
 
   render() {
     return html`
-    <div id="game-wrapper">
+      <div id="game-wrapper">
         <slot name="header"></slot>
         <slot name="middle"></slot>
         <slot name="footer"></slot>
-    </div>
+      </div>
     `;
   }
 }
