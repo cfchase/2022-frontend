@@ -6387,12 +6387,12 @@ __metadata:
 
 "graphql-subscriptions@patch:graphql-subscriptions@npm:2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84::locator=2022-game-app%40workspace%3A.":
   version: 2.0.0
-  resolution: "graphql-subscriptions@patch:graphql-subscriptions@npm%3A2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84::version=2.0.0&hash=d064ae&locator=2022-game-app%40workspace%3A."
+  resolution: "graphql-subscriptions@patch:graphql-subscriptions@npm%3A2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84::version=2.0.0&hash=3a1a84&locator=2022-game-app%40workspace%3A."
   dependencies:
     iterall: ^1.3.0
   peerDependencies:
     graphql: ^15.7.2 || ^16.0.0
-  checksum: f2865e1465e021ef2dcfe762e405125dded805c3ab95f14de5c14ddc05016f355fdbb47a8a11542670fbb8ba633e8fab5c58685a92a482dea623f9bb068eed28
+  checksum: 22062cf6b3f6bb359f534aa4e9344bc5984c080c75b1346460f0c41a7a8353b70f8ad4060e5b2e4040f2c417dbd3b07cbd5245ee8261cf3a545905321c95d424
   languageName: node
   linkType: hard
 

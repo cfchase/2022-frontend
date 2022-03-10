@@ -2,7 +2,7 @@ import type { EventPayload } from 'graphql-subscriptions';
 import type { Resolvers } from './generated.types';
 import { GameService } from './service';
 import type { Events } from './types';
-import type { RequireFields, SubscriptionGameArgs } from '../generated.schema';
+import type { SubscriptionGameArgs } from '../generated.schema';
 import { PubSub } from '../../PubSub';
 
 const resolvers: Resolvers = {
@@ -14,7 +14,7 @@ const resolvers: Resolvers = {
     game: {
       resolve: async (
         _: EventPayload<Events>,
-        { id }: RequireFields<SubscriptionGameArgs, 'id'>,
+        { id }: SubscriptionGameArgs,
         context: GraphQLModules.Context
       ) => context.injector.get(GameService).getGameById(id),
       subscribe: async (_, _args, context) =>

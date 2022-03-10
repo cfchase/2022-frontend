@@ -5,6 +5,9 @@ export type Events = {
   NEW_ORDER_CREATED: {
     order: OrderData;
   };
+  ORDER_UPDATED: {
+    order: OrderData;
+  };
 };
 
 export type OrderData = Order & {
