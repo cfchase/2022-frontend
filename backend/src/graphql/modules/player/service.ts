@@ -2,19 +2,24 @@ import assert from 'assert';
 import { filter, first } from 'lodash/fp';
 import { Injectable } from 'graphql-modules';
 import { nanoid } from 'nanoid';
-import type { ConnectionRequest, Game, Player } from './generated.types';
+import type { ConnectionRequest, Player } from './generated.types';
 import type { PlayerData } from './types';
 import generateUserName from './username.generator';
-import type { Maybe } from '../generated.schema';
-import { PubSub } from '../../PubSub';
 import { GameService } from '../game/service';
 import { GameData } from '../game/types';
+import type { Game, Maybe, Order } from '../generated.schema';
+import { OrderService } from '../order/service';
+import { PubSub } from '../../PubSub';
 
 @Injectable({ global: true })
 export class PlayerService {
   private players = new Map<Player['id'], PlayerData>();
 
-  constructor(private pubsub: PubSub, private gameService: GameService) {}
+  constructor(
+    private pubsub: PubSub,
+    private gameService: GameService,
+    private orderService: OrderService
+  ) {}
 
   private get playersArray(): PlayerData[] {
     return Array.from(this.players, ([, player]) => player);
@@ -76,6 +81,27 @@ export class PlayerService {
     assert(player, `Can't find player with id: ${playerId}`);
 
     await this.pubsub.publish('PLAYER_CONNECTED', { player });
+
+    return player;
+  }
+
+  async setCurrentOrder(
+    playerId: Player['id'],
+    orderId: Order['id']
+  ): Promise<PlayerData> {
+    const player = await this.getPlayerById(playerId);
+    assert(player, `Can't find player with id: ${playerId}`);
+
+    const order = await this.orderService.getOrderById(orderId);
+    assert(order, `Can't find order with id: ${orderId}`);
+
+    if (order.playerId !== playerId) {
+      throw new Error("Order doesn't belong to the specified player");
+    }
+
+    player.currentOrderId = order.id;
+
+    await this.pubsub.publish('PLAYER_UPDATED', { player });
 
     return player;
   }

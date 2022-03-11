@@ -13,11 +13,16 @@ extend type Query {
 }
 
 input ConnectionRequest {
-  gameId: String
-  playerId: String
+  gameId: ID
+  playerId: ID
   username: String
 }
 
 type Mutation {
   connectPlayer(request: ConnectionRequest): Player!
+  setCurrentOrder(playerId: ID!, orderId: ID!): Player!
+}
+
+type Subscription {
+  player(id: ID!): Player
 }

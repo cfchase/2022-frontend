@@ -7,6 +7,7 @@ import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 
 import { GRAPHQL_ENDPOINT, HTTP_ADDRESS, HTTP_PORT } from './config';
+import log from './log';
 import { healthCheck } from './plugins/health';
 
 import { application } from './graphql';
@@ -24,7 +25,7 @@ export default async function startApolloServer() {
 
   wsServer.on('listening', function () {
     const { port, family, address } = wsServer.address() as AddressInfo;
-    console.log(
+    log.info(
       `🚀 Subscriptions ready at ws://${address}:${port}${GRAPHQL_ENDPOINT} - ${family}`
     );
   });
@@ -40,15 +41,14 @@ export default async function startApolloServer() {
       execute: application.createExecution(),
       subscribe: application.createSubscription(),
       // season to taste...
-      onConnect: (ctx) => console.log('Connected', ctx),
-      onSubscribe: (ctx, msg) => console.log('Subscribe', { ctx, msg }),
+      onConnect: (ctx) => log.info('Connected', ctx),
+      onSubscribe: (ctx, msg) => log.info('Subscribe', { ctx, msg }),
       onNext: (ctx, msg, args, result) =>
-        console.debug('Next', { ctx, msg, args, result }),
-      onError: (ctx, msg, errors) =>
-        console.error('Error', { ctx, msg, errors }),
-      onComplete: (ctx, msg) => console.log('Completed!', { ctx, msg }),
+        log.debug('Next', { ctx, msg, args, result }),
+      onError: (ctx, msg, errors) => log.error('Error', { ctx, msg, errors }),
+      onComplete: (ctx, msg) => log.info('Completed!', { ctx, msg }),
       onDisconnect: (ctx, msg, args) =>
-        console.log('Disconnected!', ctx, msg, args),
+        log.info('Disconnected!', ctx, msg, args),
     },
     wsServer
   );
@@ -57,7 +57,7 @@ export default async function startApolloServer() {
     httpServer.listen(HTTP_PORT, HTTP_ADDRESS, resolve)
   );
 
-  console.log(
+  log.info(
     `🚀 HTTP Server   ready at http://${HTTP_ADDRESS}:${HTTP_PORT}${GRAPHQL_ENDPOINT}`
   );
 

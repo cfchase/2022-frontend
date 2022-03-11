@@ -18,6 +18,7 @@ import style from './app.css';
 import shared from '../shared.css';
 
 import '../../elements/index';
+import '../../pages/index';
 
 type Game = GameUpdatedSubscriptionData['game'];
 type StorageData = ReturnType<typeof getLocalStorage>;
@@ -119,8 +120,14 @@ export class ApolloApp extends LitElement {
   render(): TemplateResult {
     return html`
       ${!this._game ?
-        html` <h1 slot="middle">Connecting :)</h1> `
+        html`
+          <div class="full-height bullseye"> 
+            <h1>Connecting...</h1>
+          </div>
+        `
         : html`
+            <p-lobby></p-lobby>
+            <p-test></p-test>
             <e-page>
               <e-header title="Snazzy Mushroom" slot="header"></e-header>
               <e-bike-assembly slot="middle"></e-bike-assembly>
