@@ -6,6 +6,7 @@
     "frontend"
   ],
   "scripts": {
+    "build": "yarn workspaces foreach -Apiv run build",
     "dev": "yarn workspaces foreach -Apiv run dev",
     "graphql:codegen": "graphql-codegen"
   },
