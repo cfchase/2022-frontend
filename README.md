@@ -24,3 +24,17 @@ You can access the demo at `http://localhost/demo.html`
 ```
 BACKEND_ENDPOINT=ws://0.0.0.0/graphql
 ```
+
+### Backend
+Build Docker container
+
+```bash
+docker build -t rhdemo/2022-game-app-backend -f Dockerfile.backend .
+docker run -it --rm -p 8080:8080 rhdemo/2022-game-app-backend
+```
+
+Run Docker container
+
+```bash
+docker run -it --rm -p 8080:8080 rhdemo/2022-game-app-backend
+```
