@@ -5,6 +5,7 @@ import resolvers from './resolvers';
 
 const graphqlModule = createModule({
   id: 'player',
+  dirname: __dirname,
   providers: [PlayerService],
   typeDefs: loadFilesSync(`${__dirname}/types.gql`),
   resolvers,
