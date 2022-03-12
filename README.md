@@ -6,7 +6,6 @@ Build Docker container
 
 ```bash
 docker build -t rhdemo/2022-game-app -f Dockerfile.frontend .
-docker run -it --rm -p 80:80 rhdemo/2022-game-app
 ```
 
 Run Docker container
@@ -22,7 +21,7 @@ You can access the demo at `http://localhost/demo.html`
 ## Environment Variables
 
 ```
-BACKEND_ENDPOINT=ws://0.0.0.0/graphql
+BACKEND_ENDPOINT=ws://0.0.0.0:8080/graphql
 ```
 
 ### Backend
