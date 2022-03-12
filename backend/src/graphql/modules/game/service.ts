@@ -39,18 +39,20 @@ export class GameService {
     return game;
   }
 
-  async setGameState(state: Game['state']): Promise<GameData[]> {
-    let games = await this.games;
-
-    for await (let [id, game] of games) {
-      const updatedGame = { ...game, state };
-      this.games.set(id, updatedGame)
-
-      await this.pubsub.publish('GAME_UPDATED', {
-        game: updatedGame,
-      });
+  async setGameState(id: Game['id'], state: Game['state']): Promise<GameData> {
+    if (!this.games.has(id)) {
+      /**@todo throw graphql error that the game does not exist */
     }
 
-    return this.getGames();
+    const game = this.games.get(id);
+    const updatedGame = { ...game, state } as GameData;
+
+    this.games.set(id, updatedGame);
+
+    await this.pubsub.publish('GAME_UPDATED', {
+      game: updatedGame,
+    });
+
+    return updatedGame;
   }
 }

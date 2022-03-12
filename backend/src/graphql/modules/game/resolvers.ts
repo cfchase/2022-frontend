@@ -11,8 +11,8 @@ const resolvers: Resolvers = {
       context.injector.get(GameService).getGames(filter ?? {}),
   },
   Mutation: {
-    setGameState: async (_, { state }, context) =>
-      context.injector.get(GameService).setGameState(state),
+    setGameState: async (_, { id, state }, context) =>
+      context.injector.get(GameService).setGameState(id, state),
   },
   Subscription: {
     game: {
