@@ -7,8 +7,8 @@ import {
   ApolloSubscriptionController,
 } from '@apollo-elements/core';
 
-import { GameQuery } from './App.query.graphql.js';
-import { ConnectionRequestMutation } from './App.mutation.graphql.js';
+import { GameQuery } from './App.query.graphql';
+import { ConnectionRequestMutation } from './App.mutation.graphql';
 import {
   GameUpdated,
   GameUpdatedSubscriptionData,
@@ -118,21 +118,17 @@ export class ApolloApp extends LitElement {
   }
 
   render(): TemplateResult {
+    console.log(this._game)
     return html`
       ${!this._game ?
         html`
-          <div class="full-height bullseye"> 
+          <div class="full-height bullseye">
             <h1>Connecting...</h1>
           </div>
         `
         : html`
-            <p-lobby></p-lobby>
-            <p-test></p-test>
-            <e-page>
-              <e-header title="Snazzy Mushroom" slot="header"></e-header>
-              <e-bike-assembly slot="middle"></e-bike-assembly>
-              <e-footer slot="footer" timer="55"></e-footer>
-            </e-page>
+        		${this._game.state === "LOBBY" ? html` <p-lobby></p-lobby>` : ''}
+        		${this._game.state === "TESTING" ? html` <p-test></p-test>` : ''}
           `}
     `;
   }

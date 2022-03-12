@@ -10,6 +10,10 @@ const resolvers: Resolvers = {
     games: async (_, { filter }, context) =>
       context.injector.get(GameService).getGames(filter ?? {}),
   },
+  Mutation: {
+    setGameState: async (_, { id, state }, context) =>
+      context.injector.get(GameService).setGameState(id, state),
+  },
   Subscription: {
     game: {
       resolve: async (
@@ -22,6 +26,7 @@ const resolvers: Resolvers = {
           .get(PubSub)
           .asyncIterableIterator([
             'NEW_GAME_CREATED',
+            'GAME_UPDATED',
             'PLAYER_CONNECTED',
             'PLAYER_UPDATED',
           ]),

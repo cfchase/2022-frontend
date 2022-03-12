@@ -38,4 +38,21 @@ export class GameService {
 
     return game;
   }
+
+  async setGameState(id: Game['id'], state: Game['state']): Promise<GameData> {
+    if (!this.games.has(id)) {
+      /**@todo throw graphql error that the game does not exist */
+    }
+
+    const game = this.games.get(id);
+    const updatedGame = { ...game, state } as GameData;
+
+    this.games.set(id, updatedGame);
+
+    await this.pubsub.publish('GAME_UPDATED', {
+      game: updatedGame,
+    });
+
+    return updatedGame;
+  }
 }

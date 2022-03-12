@@ -1,5 +1,6 @@
 enum GameState {
   LOBBY
+  TESTING
   ACTIVE
   PAUSED
   STOPPED
@@ -20,4 +21,8 @@ type Query {
 
 type Subscription {
   game(id: ID!): Game
+}
+
+extend type Mutation {
+  setGameState(id: ID!, state: GameState!): Game!
 }
