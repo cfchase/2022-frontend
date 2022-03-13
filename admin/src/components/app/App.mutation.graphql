@@ -1,0 +1,14 @@
+mutation ConnectionRequestMutation($connectionRequest: ConnectionRequest) {
+  connectPlayer(request: $connectionRequest) {
+    id
+    username
+    game {
+      id
+      state
+      players {
+        id
+        username
+      }
+    }
+  }
+}

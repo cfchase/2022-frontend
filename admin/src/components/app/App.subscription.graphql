@@ -1,0 +1,10 @@
+subscription GameUpdated($gameId: ID!) {
+  game(id: $gameId) {
+    id
+    state
+    players {
+      id
+      username
+    }
+  }
+}

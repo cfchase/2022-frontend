@@ -1,0 +1,14 @@
+query GameQuery {
+  location @client {
+    pathname
+  }
+
+  games {
+    id
+    state
+    players {
+      id
+      username
+    }
+  }
+}
