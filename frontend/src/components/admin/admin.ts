@@ -1,6 +1,6 @@
 import { LitElement, html, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import 'https://unpkg.com/@patternfly/pfe-button?module';
+import '@patternfly/pfe-button';
 
 import {
   ApolloQueryController,

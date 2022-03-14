@@ -2131,6 +2131,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@patternfly/pfe-button@npm:2.0.0-next.0":
+  version: 2.0.0-next.0
+  resolution: "@patternfly/pfe-button@npm:2.0.0-next.0"
+  dependencies:
+    "@patternfly/pfe-core": ^2.0.0-next.0
+    lit: ^2.1.2
+  checksum: 7bbf31f4a779cccf43e24b163a9a4bec230d85fe8a7bb8d0074d7da91b23b72b518d14c90bca47177ffc271401344411bfecba7686336c2368485247f028223f
+  languageName: node
+  linkType: hard
+
+"@patternfly/pfe-core@npm:^2.0.0-next.0":
+  version: 2.0.0-next.1
+  resolution: "@patternfly/pfe-core@npm:2.0.0-next.1"
+  dependencies:
+    lit: ^2.1.2
+  checksum: b5c465406c4b45ed1f1dbf8af153117226d93134417088fcad832bc6df915201562a7ae1b0648e29b96dd963e039415769e7911b301e29ad329e80d4c2898172
+  languageName: node
+  linkType: hard
+
 "@pwrs/eslint-config@npm:^0.x":
   version: 0.0.25
   resolution: "@pwrs/eslint-config@npm:0.0.25"
@@ -5977,6 +5996,7 @@ __metadata:
     "@apollo-elements/create": ^3.0.3
     "@apollo-elements/rollup-plugin-graphql": ^1.0.3
     "@apollo/client": ^3.5.4
+    "@patternfly/pfe-button": 2.0.0-next.0
     "@pwrs/eslint-config": ^0.x
     "@rollup/plugin-commonjs": ^17.x
     "@rollup/plugin-node-resolve": ^11.x
@@ -8098,7 +8118,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit@npm:^2.2.0":
+"lit@npm:^2.1.2, lit@npm:^2.2.0":
   version: 2.2.0
   resolution: "lit@npm:2.2.0"
   dependencies:
