@@ -5,6 +5,7 @@ import {
   ApolloQueryController,
   ApolloMutationController,
   ApolloSubscriptionController,
+  ReactiveVariableController,
 } from '@apollo-elements/core';
 
 import { GameQuery } from './App.query.graphql';
@@ -14,11 +15,14 @@ import {
   GameUpdatedSubscriptionData,
 } from './App.subscription.graphql.js';
 
+import { locationVar } from '../../router.js';
+
 import style from './app.css';
 import shared from '../shared.css';
 
 import '../../elements/index';
 import '../../pages/index';
+import '../admin/index';
 
 type Game = GameUpdatedSubscriptionData['game'];
 type StorageData = ReturnType<typeof getLocalStorage>;
@@ -52,6 +56,8 @@ export class ApolloApp extends LitElement {
   static readonly is = 'apollo-app';
 
   static readonly styles = [shared, style];
+
+  router = new ReactiveVariableController(this, locationVar);
 
   @state()
   protected _game: Game;
@@ -118,18 +124,22 @@ export class ApolloApp extends LitElement {
   }
 
   render(): TemplateResult {
-    console.log(this._game)
+    const isAdmin = !!this.router?.value?.admin;
     return html`
-      ${!this._game ?
-        html`
-          <div class="full-height bullseye">
-            <h1>Connecting...</h1>
-          </div>
-        `
-        : html`
-        		${this._game.state === "LOBBY" ? html` <p-lobby></p-lobby>` : ''}
-        		${this._game.state === "TESTING" ? html` <p-test></p-test>` : ''}
-          `}
+    	${!isAdmin ? html`
+        ${!this._game ?
+          html`
+            <div class="full-height bullseye">
+              <h1>Connecting...</h1>
+            </div>
+          `
+          : html`
+              ${this._game.state === "LOBBY" ? html` <p-lobby></p-lobby>` : ''}
+              ${this._game.state === "TESTING" ? html` <p-test></p-test>` : ''}
+            `}
+      ` : html`
+          <apollo-admin></apollo-admin>
+      `}
     `;
   }
 }

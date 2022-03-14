@@ -13,7 +13,7 @@ const resolve = fromRollup(_resolve);
 export default {
   nodeResolve: true,
   port: 8004,
-  // appIndex: 'index.html',
+  appIndex: 'index.html',
   rootDir: '.',
   mimeTypes: {
     'src/components/**/*.graphql': 'js',

@@ -1,0 +1,6 @@
+mutation SetGameState($id: ID!, $state: GameState!) {
+  setGameState(id: $id, state: $state) {
+    id
+    state
+  }
+}

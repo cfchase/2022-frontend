@@ -9,32 +9,37 @@ import {
   ReactiveVariableController,
 } from '@apollo-elements/core';
 
-import { GameQuery, GameQueryData } from './App.query.graphql';
-import style from './app.css';
+import { GameQuery, GameQueryData } from './Admin.query.graphql';
+import { SetGameState } from './Admin.mutation.graphql';
+import { GameUpdated } from './Admin.subscription.graphql';
+import style from './admin.css';
 import shared from '../shared.css';
 import { locationVar } from '../../router.js';
 
 type Game = GameQueryData['games'];
-const gameStates: GameState[] = ['ACTIVE', 'LOBBY', 'PAUSED', 'STOPPED', 'TESTING'];
+const gameStates: GameState[] = ['LOBBY', 'TESTING', 'ACTIVE', 'PAUSED', 'STOPPED'];
 
-@customElement('apollo-app')
+@customElement('apollo-admin')
 export class ApolloApp extends LitElement {
-  static readonly is = 'apollo-app';
+  static readonly is = 'apollo-admin';
 
   static readonly styles = [shared, style];
 
   gameQuery = new ApolloQueryController(this, GameQuery);
+  setGameStateMutation = new ApolloMutationController(this, SetGameState);
+  gameUpdatedSubscription = new ApolloSubscriptionController(this, GameUpdated);
   router = new ReactiveVariableController(this, locationVar);
 
   render(): TemplateResult {
-    const gameId: Game['id'] = this.router?.value?.groups?.gameId;
+    const gameId: Game['id'] = this.router?.value?.games?.gameId;
 
     return html`
       <!-- homepge -->
-      ${!this.router?.value?.groups ? html`
+      ${!gameId ? html`
+      	${this.gameQuery?.data?.games.length === 0 ? html`There are no active games` : ''}
         <ul>
         ${this.gameQuery?.data?.games.map(game => html`
-          <li><a href="/games/${game.id}">${game.id}</a></li>
+          <li><a href="/admin/games/${game.id}">${game.id}</a></li>
         `)}
         </ul>
       ` : ''}
@@ -48,7 +53,7 @@ export class ApolloApp extends LitElement {
           </div>
           <div class="game-states">
             ${gameStates.map(state => html`
-              <pfe-button @click=${e => console.log(e)} ?disabled=${state === this.getGameData(gameId).state}><button>${state}</button></pfe-button>
+              <pfe-button ?disabled=${state === this.getGameData(gameId).state}><button @click=${e => this.updateGameState(state)} >${state}</button></pfe-button>
             `)}
           </div>
         </div>
@@ -60,7 +65,12 @@ export class ApolloApp extends LitElement {
     return this.gameQuery?.data?.games?.find(game => game.id === id) ?? [];
   }
 
-  private updateGameState(id: Game['id'], state: Game['state']) {
-    console.log(id, state);
+  private updateGameState(state: Game['state']) {
+    this.setGameStateMutation.mutate({
+      variables: {
+        id: this.router?.value?.games?.gameId,
+        state
+      }
+    })
   }
 }

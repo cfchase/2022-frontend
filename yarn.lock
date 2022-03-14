@@ -50,7 +50,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo-elements/core@npm:^1.0.0, @apollo-elements/core@npm:^1.1.0":
+"@apollo-elements/core@npm:^1.1.0":
   version: 1.1.0
   resolution: "@apollo-elements/core@npm:1.1.0"
   dependencies:
@@ -60,6 +60,19 @@ __metadata:
   peerDependencies:
     graphql: ^15.4.0 || ^16
   checksum: a27031235734273d3c29897e4f980982337f7d356e3b7e9893015f49dde45532f2a83ad1dbeba0015ac3b4c2993994ffe99f241d677da428d6fd1bd8e330bb79
+  languageName: node
+  linkType: hard
+
+"@apollo-elements/core@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "@apollo-elements/core@npm:2.1.0"
+  dependencies:
+    "@apollo/client": ^3.5.4
+    lit: ^2.0.2
+    tslib: ^2.3.1
+  peerDependencies:
+    graphql: ^15.4.0 || ^16
+  checksum: 8646f99aed9e1cc0edce78166bd90be9f1cbd6f16d318901022474f4763f34cd440af0e0d47bc6058d243a6c1a4c3cde7528e30b4f9cc47249f223ccede56e54
   languageName: node
   linkType: hard
 
@@ -5960,7 +5973,7 @@ __metadata:
   resolution: "frontend@workspace:frontend"
   dependencies:
     "@apollo-elements/components": ^2.0.0
-    "@apollo-elements/core": ^1.0.0
+    "@apollo-elements/core": ^2.0.0
     "@apollo-elements/create": ^3.0.3
     "@apollo-elements/rollup-plugin-graphql": ^1.0.3
     "@apollo/client": ^3.5.4
@@ -5983,6 +5996,7 @@ __metadata:
     rollup-plugin-esbuild: ^3.x
     rollup-plugin-lit-css: ^2.x
     typescript: ^4.5.5
+    urlpattern-polyfill: ^1.0.0-rc5
   languageName: unknown
   linkType: soft
 
@@ -11756,6 +11770,13 @@ __metadata:
   dependencies:
     prepend-http: ^2.0.0
   checksum: 1040e357750451173132228036aff1fd04abbd43eac1fb3e4fca7495a078bcb8d33cb765fe71ad7e473d9c94d98fd67adca63bd2716c815a2da066198dd37217
+  languageName: node
+  linkType: hard
+
+"urlpattern-polyfill@npm:^1.0.0-rc5":
+  version: 1.0.0-rc5
+  resolution: "urlpattern-polyfill@npm:1.0.0-rc5"
+  checksum: 22fbbd3f6044301b7fc44445695c6062f3db9fb85baab1aaa93b1087e430a806dc36760946469320a1b7d4b2a90d77da918269165e15e1bafc01e6c021030701
   languageName: node
   linkType: hard
 
