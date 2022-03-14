@@ -10,8 +10,10 @@ const litcss = fromRollup(_litcss);
 const commonjs = fromRollup(_commonjs);
 const resolve = fromRollup(_resolve);
 
-export default {
-  nodeResolve: true,
+export default /** @type{import('@web/dev-server').DevServerConfig}*/ ({
+  nodeResolve: {
+    exportConditions: ['import', 'default'],
+  },
   port: 8004,
   appIndex: 'index.html',
   rootDir: '.',
@@ -28,4 +30,4 @@ export default {
       exclude: ['src/style.css'],
     }),
   ],
-};
+});
