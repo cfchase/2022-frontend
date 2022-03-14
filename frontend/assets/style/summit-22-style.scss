@@ -1,6 +1,10 @@
 * {
     box-sizing: border-box;
+    
   }
+svg { height: auto !important; }
+
+
 
 /* color variables */
 
@@ -37,7 +41,7 @@ $bike-font: Repo ExtraBold, sans-serif;
 $hero-text: Repo ExtraBlack, sans-serif;
 $body-text: 'Repo Medium', sans-serif;
 $h1-text: 2.2rem;
-$h2-text: 1.4rem;
+$h2-text: 1.2rem;
 $h3-text: 1rem;
 $h4-text: .9rem;
 
@@ -60,25 +64,56 @@ $h4-text: .9rem;
 
 /* Main content */
 
+html {
+    height:100%;
+    position: relative;
+    overflow: hidden;
+}
+
 body {
     margin:0;
     padding:0;
     background-image: linear-gradient(45deg, $tertiary-color, $secondary-color, $tertiary-color);
     font-family: $bike-font;
     font-size: 16px;
+    height:100%;
+    position: relative;
+    overflow: hidden;
 }
+// #game-wrapper {
+//     background-image: url('../img/spotlight.svg');
+//     background-repeat:no-repeat!important;
+//     background-size: contain;
+//     min-width: 320px;
+//     max-width: 600px;
+//     margin:0 auto;
+//     padding:0 .5rem;
+//     display: block;
+//     height:100%;
+//     position: relative;
+//     overflow: hidden;
+//     border: black solid 1px;
+// }
+
 #game-wrapper {
+    
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    border: black solid 1px;
+    min-width: 320px;
+    max-width: 600px;
+    margin:0 auto;
+    justify-content: space-between;
+    height:100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-wrapper-spotlight {
     background-image: url('../img/spotlight.svg');
     background-repeat:no-repeat!important;
     background-size: contain;
-    min-width: 320px;
-    max-width: 600px;
-    height:100vh;
-    margin:0 auto;
-    padding:0 .5rem;
-    display: block;
-    position: relative;
-    border: black solid 1px;
 }
 
 .main-btn {
@@ -91,22 +126,161 @@ body {
 }
 
 .main-btn-footer {
-    display: inline-block;
+    display: block;
     background-image: url('../img/next-button.svg');
     background-repeat: no-repeat !important;
-    width:210px;
-    height:50px;
+    background-size: contain;
+    width:160px;
+    height:55px;
     text-align: center;
-    padding:.5rem;
-    margin:0 1rem 1rem 0;
-// 
-    }
+    padding: .5rem;
+    margin:1rem auto 2rem;
+    color: $light-color;
+    font-size: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    
+}
 
 .header-area {
     display: block;
     position: relative;
     margin-top:.5rem;     
 }
+
+#grid-wrapper {
+    display: grid;
+    grid-template-rows: 200px 1fr ;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    justify-content: space-between;
+    height:100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.header-block {
+    background-image: url(../img/header-block.svg);
+    background-repeat: no-repeat !important;
+    background-position: top center;
+    background-size:contain;
+    width:100%;
+    height:auto;
+    text-align: center;
+    color: $light-color;
+    margin:.5rem auto;
+
+    h2 {
+        font-size: $h2-text;
+        line-height: 1rem;
+        padding:2.5rem 0 0 0;
+        margin:0;
+        text-shadow: 1px 1px 1px $dark-color;
+    }
+
+    h3 {
+        font-size: $h4-text;
+        line-height: .75rem;
+        text-shadow: 1px 1px 1px $dark-color;
+    }
+}
+.sensorTest {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding:1rem;
+    gap:1rem;
+}
+
+.sensorButtons {
+    display: flex;
+    border: $light-color 2px solid;
+    border-radius: 20px;
+    padding:2rem;
+    color: $light-color;
+    width:100%;
+    height: 150px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    &:visited {
+        text-decoration:none;
+        color:$light-color;
+    }
+    &:first-of-type, &:nth-of-type(2) {
+        align-self: end;
+    }
+}
+.sensorHeat {
+    // width:400px;
+    margin:0 auto;
+  }
+  
+  .sensorBlock {
+    width:150px;
+    height:200px;
+    background: red;
+    margin: 1rem auto;
+  }
+  
+  .sensorGauge {
+    width: 100px;
+    height: 140px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  
+  /* gauge readings start*/
+  
+//   #lowGauge {fill:#fff}
+//   #mediumGauge {fill:#fff}
+//   #highGauge {fill:#fff;} 
+//   #warningGauge {fill:#f9b466}    
+//   #dangerGauge {fill:#f3400b}  
+  
+  .lowGauge {fill:#fff}
+  .mediumGauge {fill:#fff}
+  .highGauge {fill:#fff;} 
+  .warningGauge {fill:#f9b466}    
+  .dangerGauge {fill:#f3400b}  
+
+.lightsOut {
+      fill:none;
+}
+  
+  /* gauge readings end */
+
+// .sensorTest {
+//     display: flex;
+//     flex-wrap: wrap;
+//     margin: 1rem;
+//     text-align: center;
+
+
+
+
+// }
+
+// .sensorButtons {
+//     display: inline-block;
+//     border: $light-color 2px solid;
+//     padding:2rem;
+//     color: $light-color;
+//     margin:.5rem;
+//     width:42vw;
+//     height: 200px;
+//     align-items: center;
+//     text-align: center;
+
+// }
+
+
+
+
 .headerUser {
     font-size:$h2-text;
 }
@@ -151,13 +325,17 @@ body {
     overflow: hidden;
     text-align: center;
 
-
     li {
         display: inline-block;
         margin:.5rem;
         width: 90px;
         height: 90px;
-     }
+     
+        @media screen and (min-width: 300px) and (max-width: 339px) {
+            width: 70px;
+            height: 70px;   
+        }       
+    }
 }
 
 #bike-assembly-wrapper {
@@ -185,10 +363,131 @@ body {
         height: 220px;
     }
 }
+.bike-parts-wrapper {
+    position: relative;
+    margin:1rem auto;
+}
+// #bikePrinter {
+//    background-image: url(../img/printScreen.svg);
+//    background-repeat: no-repeat !important;
+//    background-size: contain;
+//    width: 100%;
+//    height:600px;
+//    position: relative;
+//    margin: 1rem auto;
+//    padding:0;
+// }
+
+// .printArm {
+//     background-image: url(../img/printArm.svg);
+//     background-repeat: no-repeat !important;
+//     // background-size: contain;
+//     background-position: 360px 0px;
+//     position: absolute;
+//     width: 60px;
+//     height:460px;
+//     top:0;
+//     left:100px;
+// }
+// .printHead {
+//     background-image: url(../img/printHead.svg);
+//     background-repeat: no-repeat !important;
+//     position: absolute;
+//     width: 360px;
+//     height:460px;
+//     top:20px;
+//     left:100px;
+// }
+
+
+
+#bikePrinter-title {
+    h2 {
+        font-size:$h2-text;
+        text-align: center;
+        margin: 0 auto;
+    }
+    h3 {
+        font-size:$h4-text;
+        text-align: center;
+        margin: 0 auto;
+    }
+}
 
 #bikePrinter {
-    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-image: url(../img/printScreen.svg);
+    background-position: center top;
+    width: 360px;
+    height:440px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto .5rem
 }
+
+#bikePrinterTouch {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-image: url(../img/printScreenTouch.svg);
+    background-position: center top;
+    width: 360px;
+    height:440px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto .5rem
+}
+
+.printerArm {
+    display: inline-flex;
+    width: 18px;
+    height: 330px;
+    background-image: url(../img/printerArm.svg);
+    position: absolute;
+    left: 90px;
+    top: 2px;
+    z-index:2;
+}
+.bikePrinter-Tri {
+    display: inline-flex;
+    background-image: url(../img/triBikePinter.svg);
+    width: 360px;
+    height: 170px;
+    left: 40px;
+    top: 40px;
+    z-index:1;
+
+}
+.printerHead {
+    display: inline-flex;
+    width: 100px;
+    height: 110px;
+    background-image: url(../img/printerHead.svg);
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    z-index:3;
+}
+
+.gaugeBlocks {
+    align-self: flex-end;
+    width:65px;
+    height: auto;
+    margin:.5rem .75rem;
+    border-radius: 25px;    
+}
+
+.layerStepper {
+    background-color: $dark-color;
+    color: $light-color;
+    padding:10px;
+    border-radius: 50px;
+    line-height:12px;
+}
+
+
 // BIKE ASSEMBLY IMPORTS START
     // BIKE FRAMES IMPORT 
     @import "bikeFrames.scss";
@@ -249,6 +548,15 @@ body {
     }
 }
 
+.footer-group {
+    background-image: url(../img/footer-background.svg);
+    width:100%;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .timer-text {
     font-family:$hero-text;
     font-size: $h2-text;
@@ -261,13 +569,11 @@ body {
 }  
 
 #footer-wrapper {
-    position: absolute;
-    bottom:0;
-    left:0;
+    position: relative;
     margin:0;
     width:100%;
     padding:0 .5rem;
-    vertical-align: bottom;
+    align-self: flex-end;
 }
 
 #ticket {
@@ -307,3 +613,4 @@ body {
     border-bottom: 0.5px #333333 solid;
 }
 
+@import "pauseScreen.scss";
