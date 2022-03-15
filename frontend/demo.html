@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="/assets/style/summit-22-style.css">
 
   <style>
+    body {
+      overflow-y: scroll;
+    }
     section {
       margin: 5rem 0;
       max-width: 600px;
@@ -50,8 +53,10 @@
   </section>
 
   <section id="header">
-    <h2>e-header</h2>
+    <h2>e-header default</h2>
     <e-header title="Snazzy Mushroom"></e-header>
+    <h2>e-header order</h2>
+    <e-header title="Snazzy Mushroom" type="order"></e-header>
   </section>
 
   <section id="footer">
@@ -94,6 +99,19 @@
     <e-draw></e-draw>
   </section>
 
+  <section>
+    <h2>p-splash</h2>
+    <p-splash></p-splash>
+    <h2>p-paused</h2>
+    <p-paused></p-paused>
+    <h2>p-test</h2>
+    <p-test></p-test>
+    <h2>p-lobby</h2>
+    <p-lobby></p-lobby>
+    <h2>p-gameover</h2>
+    <p-gameover></p-gameover>
+  </section>
+
   <script type="module" src="/src/elements/e-page.ts"></script>
   <script type="module" src="/src/elements/e-header.ts"></script>
   <script type="module" src="/src/elements/e-footer.ts"></script>
@@ -103,6 +121,7 @@
   <script type="module" src="/src/elements/e-order.ts"></script>
   <script type="module" src="/src/elements/e-meter.ts"></script>
   <script type="module" src="/src/elements/e-draw.ts"></script>
+  <script type="module" src="/src/pages/index.ts"></script>
 </body>
 
 </html>

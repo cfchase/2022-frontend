@@ -4,6 +4,10 @@ export default css`
   box-sizing: border-box;
 }
 
+svg {
+  height: auto !important;
+}
+
 /* color variables */
 /* text	variables */
 @font-face {
@@ -31,7 +35,7 @@ export default css`
 }
 
 .h2-text {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   text-align: center;
   margin: 0.25rem auto;
 }
@@ -43,26 +47,40 @@ export default css`
 }
 
 /* Main content */
+html {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;
   background-image: linear-gradient(45deg, #79c4c6, #0499c5, #79c4c6);
   font-family: Repo ExtraBold, sans-serif;
   font-size: 16px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 #game-wrapper {
-  background-image: url("/assets/img/spotlight.svg");
-  background-repeat: no-repeat !important;
-  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  border: black solid 1px;
   min-width: 320px;
   max-width: 600px;
-  height: 100vh;
   margin: 0 auto;
-  padding: 0 0.5rem;
-  display: block;
+  justify-content: space-between;
+  height: 100%;
   position: relative;
-  border: black solid 1px;
+  overflow: hidden;
+}
+
+.game-wrapper-spotlight {
+  background-image: url("../img/spotlight.svg");
+  background-repeat: no-repeat !important;
+  background-size: contain;
 }
 
 .main-btn {
@@ -70,19 +88,24 @@ body {
   padding: 0.5rem 2rem;
   color: #ffffff;
   text-decoration: none;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
 }
 
 .main-btn-footer {
-  display: inline-block;
-  background-image: url("/assets/img/next-button.svg");
+  display: block;
+  background-image: url("../img/next-button.svg");
   background-repeat: no-repeat !important;
-  width: 210px;
-  height: 50px;
+  background-size: contain;
+  width: 160px;
+  height: 55px;
   text-align: center;
   padding: 0.5rem;
-  margin: 0 1rem 1rem 0;
+  margin: 1rem auto 2rem;
+  color: #ffffff;
+  font-size: 20px;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 .header-area {
@@ -91,8 +114,118 @@ body {
   margin-top: 0.5rem;
 }
 
+#grid-wrapper {
+  display: grid;
+  grid-template-rows: 200px 1fr;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-block {
+  background-image: url(../img/header-block.svg);
+  background-repeat: no-repeat !important;
+  background-position: top center;
+  background-size: contain;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  color: #ffffff;
+  margin: 0.5rem auto;
+}
+.header-block h2 {
+  font-size: 1.2rem;
+  line-height: 1rem;
+  padding: 2.5rem 0 0 0;
+  margin: 0;
+  text-shadow: 1px 1px 1px #142C4D;
+}
+.header-block h3 {
+  font-size: 0.9rem;
+  line-height: 0.75rem;
+  text-shadow: 1px 1px 1px #142C4D;
+}
+
+.sensorTest {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.sensorButtons {
+  display: flex;
+  border: #ffffff 2px solid;
+  border-radius: 20px;
+  padding: 2rem;
+  color: #ffffff;
+  width: 100%;
+  height: 150px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.sensorButtons:visited {
+  text-decoration: none;
+  color: #ffffff;
+}
+.sensorButtons:first-of-type, .sensorButtons:nth-of-type(2) {
+  align-self: end;
+}
+
+.sensorHeat {
+  margin: 0 auto;
+}
+
+.sensorBlock {
+  width: 150px;
+  height: 200px;
+  background: red;
+  margin: 1rem auto;
+}
+
+.sensorGauge {
+  width: 100px;
+  height: 140px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* gauge readings start*/
+.lowGauge {
+  fill: #fff;
+}
+
+.mediumGauge {
+  fill: #fff;
+}
+
+.highGauge {
+  fill: #fff;
+}
+
+.warningGauge {
+  fill: #f9b466;
+}
+
+.dangerGauge {
+  fill: #f3400b;
+}
+
+.lightsOut {
+  fill: none;
+}
+
+/* gauge readings end */
 .headerUser {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 
 .headerPoints {
@@ -138,6 +271,12 @@ body {
   width: 90px;
   height: 90px;
 }
+@media screen and (min-width: 300px) and (max-width: 339px) {
+  .bikePart-carousel li {
+    width: 70px;
+    height: 70px;
+  }
+}
 
 #bike-assembly-wrapper {
   position: relative;
@@ -163,9 +302,99 @@ body {
     height: 220px;
   }
 }
+.bike-parts-wrapper {
+  position: relative;
+  margin: 1rem auto;
+}
+
+#bikePrinter-title h2 {
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 0 auto;
+}
+#bikePrinter-title h3 {
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#bikePrinter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-image: url(../img/printScreen.svg);
+  background-position: center top;
+  width: 360px;
+  height: 440px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto 0.5rem;
+}
+
+#bikePrinterTouch {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-image: url(../img/printScreenTouch.svg);
+  background-position: center top;
+  width: 360px;
+  height: 440px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto 0.5rem;
+}
+
+.printerArm {
+  display: inline-flex;
+  width: 18px;
+  height: 330px;
+  background-image: url(../img/printerArm.svg);
+  position: absolute;
+  left: 90px;
+  top: 2px;
+  z-index: 2;
+}
+
+.bikePrinter-Tri {
+  display: inline-flex;
+  background-image: url(../img/triBikePinter.svg);
+  width: 360px;
+  height: 170px;
+  left: 40px;
+  top: 40px;
+  z-index: 1;
+}
+
+.printerHead {
+  display: inline-flex;
+  width: 100px;
+  height: 110px;
+  background-image: url(../img/printerHead.svg);
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  z-index: 3;
+}
+
+.gaugeBlocks {
+  align-self: flex-end;
+  width: 65px;
+  height: auto;
+  margin: 0.5rem 0.75rem;
+  border-radius: 25px;
+}
+
+.layerStepper {
+  background-color: #142C4D;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 50px;
+  line-height: 12px;
+}
+
 .bikeFrame {
   display: inline-block;
-  background-image: url("/assets/img/bikeFramesSprite.svg");
+  background-image: url("../img/bikeFramesSprite.svg");
 }
 
 .bikeFrameRed {
@@ -236,7 +465,7 @@ body {
 
 .bikeSeat {
   display: inline-block;
-  background-image: url("/assets/img/bikeSeatSprite.svg");
+  background-image: url("../img/bikeSeatSprite.svg");
 }
 
 .bikeSeat-eBike {
@@ -406,7 +635,7 @@ body {
 
 .bikeHandles {
   display: inline-block;
-  background-image: url("/assets/img/bikeHandlesSprite.svg");
+  background-image: url("../img/bikeHandlesSprite.svg");
 }
 
 .bikeHandles-eBike {
@@ -576,7 +805,7 @@ body {
 
 .bikePedals {
   display: inline-block;
-  background-image: url("/assets/img/bikePedalsSprite.svg");
+  background-image: url("../img/bikePedalsSprite.svg");
 }
 
 .bikePedals-eBike {
@@ -746,7 +975,7 @@ body {
 
 .bikeWheels {
   display: inline-block;
-  background-image: url("/assets/img/bikeWheelsSprite.svg");
+  background-image: url("../img/bikeWheelsSprite.svg");
 }
 
 .bikeWheels-eBike {
@@ -1058,7 +1287,7 @@ body {
 }
 
 .footer-area-wrapper {
-  background-image: url("/assets/img/footer-background.svg");
+  background-image: url("../img/footer-background.svg");
   background-size: contain;
   background-position: center bottom;
   background-repeat: no-repeat !important;
@@ -1079,7 +1308,7 @@ body {
 }
 .footer-area--timer {
   display: block;
-  background-image: url("/assets/img/timer-background.svg");
+  background-image: url("../img/timer-background.svg");
   height: 70px;
   width: 70px;
   margin: 0 0 0.5rem 1rem;
@@ -1093,12 +1322,21 @@ body {
   .footer-area--timer {
     height: 60px;
     width: 60px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 }
+.footer-group {
+  background-image: url(../img/footer-background.svg);
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .timer-text {
   font-family: Repo ExtraBlack, sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: #ffffff;
   text-shadow: 2px 2px 2px #0499c5;
 }
@@ -1108,17 +1346,15 @@ body {
 }
 
 #footer-wrapper {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
   margin: 0;
   width: 100%;
   padding: 0 0.5rem;
-  vertical-align: bottom;
+  align-self: flex-end;
 }
 
 #ticket {
-  background-image: url("/assets/img/ticket.svg");
+  background-image: url("../img/ticket.svg");
   background-size: contain;
   background-repeat: repeat-y;
   position: absolute;
@@ -1154,4 +1390,80 @@ body {
   padding-bottom: 5px;
   border-bottom: 0.5px #333333 solid;
 }
+
+#pauseScreen {
+  display: grid;
+  grid-template-rows: repeat(1fr);
+  align-items: center;
+  padding: 1rem;
+  height: 100%;
+}
+
+#pauseHeader {
+  margin-top: 10px;
+  z-index: -999;
+  position: relative;
+}
+
+.orderTicket {
+  background-image: url(../img/ticketBar.svg);
+  margin: -20px auto;
+  z-index: 999;
+  width: 85%;
+  padding: 1rem 2rem;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3));
+}
+.orderTicket h2 {
+  margin: 0.5rem 0 1rem 0;
+  border-bottom: 1px solid #142C4D;
+}
+
+.bikeOrders {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  margin: 1rem 0;
+  padding-bottom: 1rem;
+  width: 100%;
+  border-bottom: 1px solid #142C4D;
+}
+
+.bikeOrders-preview {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bikeOrders-preview img {
+  width: 100%;
+}
+
+.bikeOrders-info {
+  width: 200px;
+  height: auto;
+  display: flex;
+  margin-left: 20px;
+  align-items: center;
+}
+.bikeOrders-info h3 {
+  margin: 0 0 5px 0;
+  width: 100%;
+}
+.bikeOrders-info p {
+  margin: 0;
+  width: 100%;
+  font-size: 14px;
+  padding: 0;
+}
+
+.shippingProgress {
+  display: inline-block;
+  width: 75px;
+  height: 10px;
+  border-radius: 20px;
+  background-color: green;
+}
+
+/*# sourceMappingURL=summit-22-style.css.map */
+
 `
