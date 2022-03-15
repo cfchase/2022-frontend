@@ -10,10 +10,10 @@ const litcss = fromRollup(_litcss);
 const commonjs = fromRollup(_commonjs);
 const resolve = fromRollup(_resolve);
 
-export default {
+export default /** @type{import('@web/dev-server').DevServerConfig}*/ ({
   nodeResolve: true,
   port: 8004,
-  // appIndex: 'index.html',
+  appIndex: 'index.html',
   rootDir: '.',
   mimeTypes: {
     'src/components/**/*.graphql': 'js',
@@ -28,4 +28,4 @@ export default {
       exclude: ['src/style.css'],
     }),
   ],
-};
+});

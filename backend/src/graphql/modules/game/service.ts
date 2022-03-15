@@ -42,6 +42,7 @@ export class GameService {
   async setGameState(id: Game['id'], state: Game['state']): Promise<GameData> {
     if (!this.games.has(id)) {
       /**@todo throw graphql error that the game does not exist */
+      throw new Error("Invalid id")
     }
 
     const game = this.games.get(id);

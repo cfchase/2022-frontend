@@ -20,6 +20,7 @@
       "es5",
       "es6",
       "ScriptHost"
-    ]
-  }
+    ],
+    "skipLibCheck": true
+  },
 }

@@ -1,0 +1,113 @@
+diff --git a/package.json b/package.json
+index 50076e841533b3154e6063de906d86ed823da705..604728d1d5f666f92da7c15993dd50cdecf6d31e 100644
+--- a/package.json
++++ b/package.json
+@@ -13,25 +13,93 @@
+       "esbuild": "./core.ts",
+       "default": "./core.js"
+     },
+-    "./*": {
+-      "esbuild": "./*.ts",
+-      "default": "./*.js"
++    "./core.js": {
++      "esbuild": "./core.ts",
++      "default": "./core.js"
++    },
++    "./context.js": {
++      "esbuild": "./context.ts",
++      "default": "./context.js"
++    },
++    "./decorators.js": {
++      "esbuild": "./decorators.ts",
++      "default": "./decorators.js"
++    },
++    "./controllers/cascade-controller.js": {
++      "esbuild": "./controllers/cascade-controller.ts",
++      "default": "./controllers/cascade-controller.js"
++    },
++    "./controllers/color-context-controller.js": {
++      "esbuild": "./controllers/color-context-controller.ts",
++      "default": "./controllers/color-context-controller.js"
++    },
++    "./controllers/css-variable-controller.js": {
++      "esbuild": "./controllers/css-variable-controller.ts",
++      "default": "./controllers/css-variable-controller.js"
++    },
++    "./controllers/light-dom-controller.js": {
++      "esbuild": "./controllers/light-dom-controller.ts",
++      "default": "./controllers/light-dom-controller.js"
++    },
++    "./controllers/logger.js": {
++      "esbuild": "./controllers/logger.ts",
++      "default": "./controllers/logger.js"
++    },
++    "./controllers/perf-controller.js": {
++      "esbuild": "./controllers/perf-controller.ts",
++      "default": "./controllers/perf-controller.js"
++    },
++    "./controllers/property-observer-controller.js": {
++      "esbuild": "./controllers/property-observer-controller.ts",
++      "default": "./controllers/property-observer-controller.js"
++    },
++    "./controllers/slot-controller.js": {
++      "esbuild": "./controllers/slot-controller.ts",
++      "default": "./controllers/slot-controller.js"
++    },
++    "./controllers/style-controller.js": {
++      "esbuild": "./controllers/style-controller.ts",
++      "default": "./controllers/style-controller.js"
++    },
++    "./decorators/bound.js": {
++      "esbuild": "./decorators/bound.ts",
++      "default": "./decorators/bound.js"
++    },
++    "./decorators/cascades.js": {
++      "esbuild": "./decorators/cascades.ts",
++      "default": "./decorators/cascades.js"
++    },
++    "./decorators/initializer.js": {
++      "esbuild": "./decorators/initializer.ts",
++      "default": "./decorators/initializer.js"
++    },
++    "./decorators/observed.js": {
++      "esbuild": "./decorators/observed.ts",
++      "default": "./decorators/observed.js"
++    },
++    "./decorators/pfelement.js": {
++      "esbuild": "./decorators/pfelement.ts",
++      "default": "./decorators/pfelement.js"
++    },
++    "./decorators/time.js": {
++      "esbuild": "./decorators/time.ts",
++      "default": "./decorators/time.js"
+     },
+-    "./controllers/*": {
+-      "esbuild": "./controllers/*.ts",
+-      "default": "./controllers/*.js"
++    "./decorators/trace.js": {
++      "esbuild": "./decorators/trace.ts",
++      "default": "./decorators/trace.js"
+     },
+-    "./decorators/*": {
+-      "esbuild": "./decorators/*.ts",
+-      "default": "./decorators/*.js"
++    "./functions/debounce.js": {
++      "esbuild": "./functions/debounce.ts",
++      "default": "./functions/debounce.js"
+     },
+-    "./directives/*": {
+-      "esbuild": "./directives/*.ts",
+-      "default": "./directives/*.js"
++    "./functions/deprecatedCustomEvent.js": {
++      "esbuild": "./functions/deprecatedCustomEvent.ts",
++      "default": "./functions/deprecatedCustomEvent.js"
+     },
+-    "./functions/*": {
+-      "esbuild": "./functions/*.ts",
+-      "default": "./functions/*.js"
++    "./functions/random.js": {
++      "esbuild": "./functions/random.ts",
++      "default": "./functions/random.js"
+     }
+   },
+   "publishConfig": {

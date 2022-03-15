@@ -50,7 +50,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo-elements/core@npm:^1.0.0, @apollo-elements/core@npm:^1.1.0":
+"@apollo-elements/core@npm:^1.1.0":
   version: 1.1.0
   resolution: "@apollo-elements/core@npm:1.1.0"
   dependencies:
@@ -60,6 +60,19 @@ __metadata:
   peerDependencies:
     graphql: ^15.4.0 || ^16
   checksum: a27031235734273d3c29897e4f980982337f7d356e3b7e9893015f49dde45532f2a83ad1dbeba0015ac3b4c2993994ffe99f241d677da428d6fd1bd8e330bb79
+  languageName: node
+  linkType: hard
+
+"@apollo-elements/core@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "@apollo-elements/core@npm:2.1.0"
+  dependencies:
+    "@apollo/client": ^3.5.4
+    lit: ^2.0.2
+    tslib: ^2.3.1
+  peerDependencies:
+    graphql: ^15.4.0 || ^16
+  checksum: 8646f99aed9e1cc0edce78166bd90be9f1cbd6f16d318901022474f4763f34cd440af0e0d47bc6058d243a6c1a4c3cde7528e30b4f9cc47249f223ccede56e54
   languageName: node
   linkType: hard
 
@@ -2115,6 +2128,34 @@ __metadata:
   version: 1.3.0
   resolution: "@open-wc/dedupe-mixin@npm:1.3.0"
   checksum: 6c957d705a0ee96c46282b95267eab0365265e90109b2da95b51c5384b730c4823fb426f99a0cc10465826250bd6466199af80ad7257a4aacdd9bcb997b4cab3
+  languageName: node
+  linkType: hard
+
+"@patternfly/pfe-button@npm:2.0.0-next.0":
+  version: 2.0.0-next.0
+  resolution: "@patternfly/pfe-button@npm:2.0.0-next.0"
+  dependencies:
+    "@patternfly/pfe-core": ^2.0.0-next.0
+    lit: ^2.1.2
+  checksum: 7bbf31f4a779cccf43e24b163a9a4bec230d85fe8a7bb8d0074d7da91b23b72b518d14c90bca47177ffc271401344411bfecba7686336c2368485247f028223f
+  languageName: node
+  linkType: hard
+
+"@patternfly/pfe-core@npm:2.0.0-next.1":
+  version: 2.0.0-next.1
+  resolution: "@patternfly/pfe-core@npm:2.0.0-next.1"
+  dependencies:
+    lit: ^2.1.2
+  checksum: b5c465406c4b45ed1f1dbf8af153117226d93134417088fcad832bc6df915201562a7ae1b0648e29b96dd963e039415769e7911b301e29ad329e80d4c2898172
+  languageName: node
+  linkType: hard
+
+"@patternfly/pfe-core@patch:@patternfly/pfe-core@npm:2.0.0-next.1#.yarn/patches/@patternfly-pfe-core-npm-2.0.0-next.1-e0ea84a032::locator=2022-game-app%40workspace%3A.":
+  version: 2.0.0-next.1
+  resolution: "@patternfly/pfe-core@patch:@patternfly/pfe-core@npm%3A2.0.0-next.1#.yarn/patches/@patternfly-pfe-core-npm-2.0.0-next.1-e0ea84a032::version=2.0.0-next.1&hash=653af7&locator=2022-game-app%40workspace%3A."
+  dependencies:
+    lit: ^2.1.2
+  checksum: 6937dbb1088fd3732e9fef0d1fe9984c77efaffc554f2fc8653a35f1f2ad90046d8fb79275a53e8f5a6329d8441e3077bbb95eabaed8d773635dd47cf957d1cd
   languageName: node
   linkType: hard
 
@@ -5960,10 +6001,11 @@ __metadata:
   resolution: "frontend@workspace:frontend"
   dependencies:
     "@apollo-elements/components": ^2.0.0
-    "@apollo-elements/core": ^1.0.0
+    "@apollo-elements/core": ^2.0.0
     "@apollo-elements/create": ^3.0.3
     "@apollo-elements/rollup-plugin-graphql": ^1.0.3
     "@apollo/client": ^3.5.4
+    "@patternfly/pfe-button": 2.0.0-next.0
     "@pwrs/eslint-config": ^0.x
     "@rollup/plugin-commonjs": ^17.x
     "@rollup/plugin-node-resolve": ^11.x
@@ -5983,6 +6025,7 @@ __metadata:
     rollup-plugin-esbuild: ^3.x
     rollup-plugin-lit-css: ^2.x
     typescript: ^4.5.5
+    urlpattern-polyfill: ^1.0.0-rc5
   languageName: unknown
   linkType: soft
 
@@ -8084,7 +8127,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit@npm:^2.2.0":
+"lit@npm:^2.1.2, lit@npm:^2.2.0":
   version: 2.2.0
   resolution: "lit@npm:2.2.0"
   dependencies:
@@ -11756,6 +11799,13 @@ __metadata:
   dependencies:
     prepend-http: ^2.0.0
   checksum: 1040e357750451173132228036aff1fd04abbd43eac1fb3e4fca7495a078bcb8d33cb765fe71ad7e473d9c94d98fd67adca63bd2716c815a2da066198dd37217
+  languageName: node
+  linkType: hard
+
+"urlpattern-polyfill@npm:^1.0.0-rc5":
+  version: 1.0.0-rc5
+  resolution: "urlpattern-polyfill@npm:1.0.0-rc5"
+  checksum: 22fbbd3f6044301b7fc44445695c6062f3db9fb85baab1aaa93b1087e430a806dc36760946469320a1b7d4b2a90d77da918269165e15e1bafc01e6c021030701
   languageName: node
   linkType: hard
 
