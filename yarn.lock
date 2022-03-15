@@ -2141,12 +2141,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@patternfly/pfe-core@npm:^2.0.0-next.0":
+"@patternfly/pfe-core@npm:2.0.0-next.1":
   version: 2.0.0-next.1
   resolution: "@patternfly/pfe-core@npm:2.0.0-next.1"
   dependencies:
     lit: ^2.1.2
   checksum: b5c465406c4b45ed1f1dbf8af153117226d93134417088fcad832bc6df915201562a7ae1b0648e29b96dd963e039415769e7911b301e29ad329e80d4c2898172
+  languageName: node
+  linkType: hard
+
+"@patternfly/pfe-core@patch:@patternfly/pfe-core@npm:2.0.0-next.1#.yarn/patches/@patternfly-pfe-core-npm-2.0.0-next.1-e0ea84a032::locator=2022-game-app%40workspace%3A.":
+  version: 2.0.0-next.1
+  resolution: "@patternfly/pfe-core@patch:@patternfly/pfe-core@npm%3A2.0.0-next.1#.yarn/patches/@patternfly-pfe-core-npm-2.0.0-next.1-e0ea84a032::version=2.0.0-next.1&hash=653af7&locator=2022-game-app%40workspace%3A."
+  dependencies:
+    lit: ^2.1.2
+  checksum: 6937dbb1088fd3732e9fef0d1fe9984c77efaffc554f2fc8653a35f1f2ad90046d8fb79275a53e8f5a6329d8441e3077bbb95eabaed8d773635dd47cf957d1cd
   languageName: node
   linkType: hard
 

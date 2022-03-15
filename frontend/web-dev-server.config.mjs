@@ -11,9 +11,7 @@ const commonjs = fromRollup(_commonjs);
 const resolve = fromRollup(_resolve);
 
 export default /** @type{import('@web/dev-server').DevServerConfig}*/ ({
-  nodeResolve: {
-    exportConditions: ['import', 'default'],
-  },
+  nodeResolve: true,
   port: 8004,
   appIndex: 'index.html',
   rootDir: '.',

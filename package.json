@@ -29,6 +29,7 @@
     "typescript": "^4.5.5"
   },
   "resolutions": {
-    "graphql-subscriptions": "patch:graphql-subscriptions@npm:2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84"
+    "graphql-subscriptions": "patch:graphql-subscriptions@npm:2.0.0#.yarn/patches/graphql-subscriptions-npm-2.0.0-53564d1c84",
+    "@patternfly/pfe-core": "patch:@patternfly/pfe-core@npm:2.0.0-next.1#.yarn/patches/@patternfly-pfe-core-npm-2.0.0-next.1-e0ea84a032"
   }
 }
